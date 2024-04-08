@@ -1,4 +1,4 @@
-import { scaleFactor } from "./constants";
+import { dialogueData, scaleFactor } from "./constants";
 import { k } from "./kaboomCtx";
 import { displayDialogue, setCamScale } from "./utils";
 
@@ -12,6 +12,8 @@ k.loadSprite("spritesheet", "./spritesheet.png", {
     "walk-side": { from: 996, to: 998, loop: true, speed: 8 },
     "idle-up": 1034,
     "walk-up": { from: 1035, to: 1037, loop: true, speed: 8 },
+    bunnymove: { from: 780, to: 781, loop: true, speed: 2 },
+    "full-health": 546,
   },
 });
 
@@ -28,6 +30,7 @@ k.scene("main", async () => {
   // PLAYER //
   const player = k.make([
     k.sprite("spritesheet", { anim: "idle-down" }),
+    k.health(10),
     k.area(),
     k.pos(),
     k.body(),
@@ -41,6 +44,25 @@ k.scene("main", async () => {
     "player",
   ]);
 
+  player.onCollide("water", () => {
+    player.hurt(1);
+  });
+
+  player.onHurt(() => {
+    player.setHP();
+  });
+
+  const bunny = k.make([
+    k.sprite("spritesheet", { anim: "bunnymove" }),
+    k.area(),
+    k.pos(),
+    k.body({ isStatic: true }),
+    k.anchor("top"),
+    k.scale(3),
+    "bunny",
+  ]);
+
+  // BOUNDARIES //
   for (const layer of layers) {
     if (layer.name === "boundaries") {
       for (const boundary of layer.objects) {
@@ -53,12 +75,11 @@ k.scene("main", async () => {
           boundary.name,
         ]);
 
-        if (boundary.name === "water") {
+        if (boundary.type === "hasDialogue") {
           player.onCollide(boundary.name, () => {
             player.isInDialogue = true;
-            console.log(layer.name);
             displayDialogue(
-              "No thank you I don't want to swim",
+              dialogueData[boundary.name],
               () => (player.isInDialogue = false)
             );
           });
@@ -75,6 +96,14 @@ k.scene("main", async () => {
             (map.pos.y + entity.y) * scaleFactor
           );
           k.add(player);
+          continue;
+        }
+        if (entity.name === "bunny") {
+          bunny.pos = k.vec2(
+            (map.pos.x + entity.x) * scaleFactor,
+            (map.pos.y + entity.y) * scaleFactor
+          );
+          k.add(bunny);
           continue;
         }
       }

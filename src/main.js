@@ -28,9 +28,7 @@ k.scene("main", async () => {
   // PLAYER //
   const player = k.make([
     k.sprite("spritesheet", { anim: "idle-down" }),
-    k.area({
-      shape: new k.Rect(k.vec2(0), 16, 16),
-    }),
+    k.area(),
     k.pos(),
     k.body(),
     k.anchor("center"),
@@ -48,18 +46,21 @@ k.scene("main", async () => {
       for (const boundary of layer.objects) {
         map.add([
           k.area({
-            shape: new k.Rect(k.vec2(0, boundary.width, boundary.height)),
+            shape: new k.Rect(k.vec2(0, 0), boundary.width, boundary.height),
           }),
-          k.body({ isStatic: true }),
           k.pos(boundary.x, boundary.y),
+          k.body({ isStatic: true }),
           boundary.name,
         ]);
 
-        if (boundary.name === "stubbe") {
+        if (boundary.name === "water") {
           player.onCollide(boundary.name, () => {
             player.isInDialogue = true;
             console.log(layer.name);
-            displayDialogue("TODO", () => (player.isInDialogue = false));
+            displayDialogue(
+              "No thank you I don't want to swim",
+              () => (player.isInDialogue = false)
+            );
           });
         }
       }
@@ -134,6 +135,19 @@ k.scene("main", async () => {
       player.direction = "left";
       return;
     }
+  });
+
+  k.onMouseRelease(() => {
+    if (player.direction === "down") {
+      player.play("idle-down");
+      return;
+    }
+    if (player.direction === "up") {
+      player.play("idle-up");
+      return;
+    }
+
+    player.play("idle-side");
   });
 });
 

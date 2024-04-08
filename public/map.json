@@ -52,7 +52,7 @@
                 {
                  "height":16,
                  "id":17,
-                 "name":"",
+                 "name":"wall",
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -144,7 +144,7 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":16,
+                 "width":18,
                  "x":128,
                  "y":128
                 }, 
@@ -303,7 +303,7 @@
                  "y":159.666666666667
                 }, 
                 {
-                 "height":15.3333333333333,
+                 "height":16,
                  "id":65,
                  "name":"water",
                  "rotation":0,
@@ -384,8 +384,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":7,
- "nextobjectid":68,
+ "nextlayerid":8,
+ "nextobjectid":70,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

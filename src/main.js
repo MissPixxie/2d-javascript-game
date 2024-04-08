@@ -1,17 +1,17 @@
 import { scaleFactor } from "./constants";
 import { k } from "./kaboomCtx";
-import { displayDialogue } from "./utils";
+import { displayDialogue, setCamScale } from "./utils";
 
 k.loadSprite("spritesheet", "./spritesheet.png", {
   sliceX: 39,
   sliceY: 31,
   anims: {
-    "idle-down": 936,
-    "walk-down": { from: 936, to: 939, loop: true, speed: 8 },
-    "idle-side": 975,
-    "walk-side": { from: 975, to: 978, loop: true, speed: 8 },
-    "idle-up": 1014,
-    "walk-up": { from: 1014, to: 1017, loop: true, speed: 8 },
+    "idle-down": 956,
+    "walk-down": { from: 959, to: 957, loop: true, speed: 8 },
+    "idle-side": 995,
+    "walk-side": { from: 996, to: 998, loop: true, speed: 8 },
+    "idle-up": 1034,
+    "walk-up": { from: 1035, to: 1037, loop: true, speed: 8 },
   },
 });
 
@@ -25,14 +25,15 @@ k.scene("main", async () => {
 
   const map = k.add([k.sprite("map"), k.pos(0), k.scale(scaleFactor)]);
 
+  // PLAYER //
   const player = k.make([
     k.sprite("spritesheet", { anim: "idle-down" }),
     k.area({
-      shape: new k.Rect(k.vec2(0, 3), 10, 10),
+      shape: new k.Rect(k.vec2(0), 16, 16),
     }),
+    k.pos(),
     k.body(),
     k.anchor("center"),
-    k.pos(),
     k.scale(scaleFactor),
     {
       speed: 250,
@@ -54,9 +55,10 @@ k.scene("main", async () => {
           boundary.name,
         ]);
 
-        if (boundary.name) {
+        if (boundary.name === "stubbe") {
           player.onCollide(boundary.name, () => {
             player.isInDialogue = true;
+            console.log(layer.name);
             displayDialogue("TODO", () => (player.isInDialogue = false));
           });
         }
@@ -78,6 +80,12 @@ k.scene("main", async () => {
     }
   }
 
+  setCamScale(k);
+
+  k.onResize(() => {
+    setCamScale(k);
+  });
+
   k.onUpdate(() => {
     k.camPos(player.pos.x, player.pos.y + 100);
   });
@@ -87,6 +95,45 @@ k.scene("main", async () => {
 
     const worldMousePos = k.toWorld(k.mousePos());
     player.moveTo(worldMousePos, player.speed);
+
+    const mouseAngle = player.pos.angle(worldMousePos);
+
+    const lowerBound = 50;
+    const upperBound = 125;
+
+    if (
+      mouseAngle > lowerBound &&
+      mouseAngle < upperBound &&
+      player.curAnim() != "walk-up"
+    ) {
+      player.play("walk-up");
+      player.direction = "up";
+      return;
+    }
+
+    if (
+      mouseAngle < -lowerBound &&
+      mouseAngle > -upperBound &&
+      player.curAnim() != "walk-down"
+    ) {
+      player.play("walk-down");
+      player.direction = "down";
+      return;
+    }
+
+    if (Math.abs(mouseAngle) > upperBound) {
+      player.flipX = false;
+      if (player.curAnim() != "walk-side") player.play("walk-side");
+      player.direction = "right";
+      return;
+    }
+
+    if (Math.abs(mouseAngle) < lowerBound) {
+      player.flipX = true;
+      if (player.curAnim() != "walk-side") player.play("walk-side");
+      player.direction = "left";
+      return;
+    }
   });
 });
 

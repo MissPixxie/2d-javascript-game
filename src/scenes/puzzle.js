@@ -1,185 +1,249 @@
 import { dialogueData, scaleFactor, background } from "../constants";
 import { kaBoom } from "../kaboomCtx";
-import { displayDialogue, setCamScale } from "../utils";
+import { displayDialogue, setCamScale, displayFirstDialogue } from "../utils";
+import ChangeScene from "../world";
 
-export default function Puzzle() {
-  kaBoom.loadSprite("spritesheet", "../spritesheet.png", {
-    sliceX: 39,
-    sliceY: 31,
-    anims: {
-      "idle-down": 956,
-      "walk-down": { from: 959, to: 957, loop: true, speed: 8 },
-      "idle-side": 995,
-      "walk-side": { from: 996, to: 998, loop: true, speed: 8 },
-      "idle-up": 1034,
-      "walk-up": { from: 1035, to: 1037, loop: true, speed: 8 },
-      bunnymove: { from: 780, to: 781, loop: true, speed: 2 },
-      "full-health": 546,
-    },
-  });
-
-  kaBoom.loadSprite("map", "../map2.png");
-
+export default function puzzleScene() {
   kaBoom.setBackground(kaBoom.Color.fromHex(background));
 
-  kaBoom.scene("puzzle", async () => {
-    const mapData = await (await fetch("../map2.json")).json();
-    const layers = mapData.layers;
+  kaBoom.scene("puzzleScene", async () => {
+    const backBtn = document.getElementById("backBtn");
+    function backToMain() {
+      const puzzleContainer = document.getElementById("puzzleContainer");
+      puzzleContainer.style.display = "none";
+      ChangeScene("main");
+    }
+    backBtn.addEventListener("click", backToMain);
 
-    const map = kaBoom.add([
-      kaBoom.sprite("map"),
-      kaBoom.pos(0),
-      kaBoom.scale(scaleFactor),
-    ]);
+    const puzzleContainer = document.getElementById("puzzleContainer");
+    puzzleContainer.style.display = "block";
+    puzzleContainer.style.backgroundColor = "#202121";
+    puzzleContainer.style.display = "flex";
+    puzzleContainer.style.justifyContent = "center";
+    puzzleContainer.style.alignItems = "center";
 
-    // PLAYER //
-    const player = kaBoom.make([
-      kaBoom.sprite("spritesheet", { anim: "idle-down" }),
-      kaBoom.health(10),
-      kaBoom.area(),
-      kaBoom.pos(),
-      kaBoom.body(),
-      kaBoom.anchor("center"),
-      kaBoom.scale(scaleFactor),
-      {
-        speed: 250,
-        direction: "down",
-        isInDialogue: false,
-      },
-      "player",
-    ]);
+    const puzzleBoard = document.getElementById("board");
 
-    const bunny = kaBoom.make([
-      kaBoom.sprite("spritesheet", { anim: "bunnymove" }),
-      kaBoom.area(),
-      kaBoom.pos(),
-      kaBoom.body({ isStatic: true }),
-      kaBoom.anchor("top"),
-      kaBoom.scale(3),
-      "bunny",
-    ]);
+    puzzleBoard.style.width = "1000px";
+    puzzleBoard.style.height = "700px";
+    puzzleBoard.style.margin = "auto";
+    puzzleBoard.style.display = "flex";
+    puzzleBoard.style.flexWrap = "wrap";
 
-    // BOUNDARIES //
-    for (const layer of layers) {
-      if (layer.name === "boundaries") {
-        for (const boundary of layer.objects) {
-          map.add([
-            kaBoom.area({
-              shape: new kaBoom.Rect(
-                kaBoom.vec2(0, 0),
-                boundary.width,
-                boundary.height
-              ),
-            }),
-            kaBoom.pos(boundary.x, boundary.y),
-            kaBoom.body({ isStatic: true }),
-            boundary.name,
-          ]);
+    var columns = 4;
+    var rows = 3;
 
-          if (boundary.type === "hasDialogue") {
-            player.onCollide(boundary.name, () => {
-              player.isInDialogue = true;
-              displayDialogue(
-                dialogueData[boundary.name],
-                () => (player.isInDialogue = false)
-              );
-            });
-          }
-        }
-        continue;
-      }
+    var currTile;
+    var otherTile; // blank tile
 
-      if (layer.name === "spawnpoint") {
-        for (const entity of layer.objects) {
-          if (entity.name === "player") {
-            player.pos = kaBoom.vec2(
-              (map.pos.x + entity.x) * scaleFactor,
-              (map.pos.y + entity.y) * scaleFactor
-            );
-            kaBoom.add(player);
-            continue;
-          }
-          if (entity.name === "bunny") {
-            bunny.pos = kaBoom.vec2(
-              (map.pos.x + entity.x) * scaleFactor,
-              (map.pos.y + entity.y) * scaleFactor
-            );
-            kaBoom.add(bunny);
-            continue;
-          }
-        }
+    var imgOrder = [
+      "8",
+      "2",
+      "6",
+      "1",
+      "9",
+      "3",
+      "10",
+      "4",
+      "11",
+      "5",
+      "12",
+      "7",
+    ];
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < columns; c++) {
+        let tile = document.createElement("img");
+        tile.id = r.toString() + "-" + c.toString();
+        tile.src = "/images/" + imgOrder.shift() + ".jpg";
+
+        tile.addEventListener("dragstart", dragStart);
+        tile.addEventListener("dragover", dragOver);
+        tile.addEventListener("dragenter", dragEnter);
+        tile.addEventListener("dragleave", dragLeave);
+        tile.addEventListener("drop", dragDrop);
+        tile.addEventListener("dragend", dragEnd);
+
+        document.getElementById("board").append(tile);
       }
     }
 
-    setCamScale(kaBoom);
+    function dragStart() {
+      currTile = this;
+    }
 
-    kaBoom.onResize(() => {
-      setCamScale(kaBoom);
-    });
+    function dragOver(e) {
+      e.preventDefault();
+    }
 
-    kaBoom.onUpdate(() => {
-      kaBoom.camPos(player.pos.x, player.pos.y + 100);
-    });
+    function dragEnter(e) {
+      e.preventDefault();
+    }
 
-    kaBoom.onMouseDown((mouseBtn) => {
-      if (mouseBtn !== "left" || player.isInDialogue) return;
+    function dragLeave() {}
 
-      const worldMousePos = kaBoom.toWorld(kaBoom.mousePos());
-      player.moveTo(worldMousePos, player.speed);
+    function dragDrop() {
+      otherTile = this;
+    }
 
-      const mouseAngle = player.pos.angle(worldMousePos);
+    function dragEnd() {
+      let currImg = currTile.src;
+      let otherImg = otherTile.src;
+      currTile.src = otherImg;
+      otherTile.src = currImg;
+    }
 
-      const lowerBound = 50;
-      const upperBound = 125;
+    const puzzleImages = document.images;
 
-      if (
-        mouseAngle > lowerBound &&
-        mouseAngle < upperBound &&
-        player.curAnim() != "walk-up"
-      ) {
-        player.play("walk-up");
-        player.direction = "up";
-        return;
-      }
+    for (let i = 0; i < puzzleImages.length; i++) {
+      puzzleImages[i].style.width = "220px";
+      puzzleImages[i].style.height = "228px";
+      puzzleImages[i].style.border = "3px solid #202121";
+    }
 
-      if (
-        mouseAngle < -lowerBound &&
-        mouseAngle > -upperBound &&
-        player.curAnim() != "walk-down"
-      ) {
-        player.play("walk-down");
-        player.direction = "down";
-        return;
-      }
+    // const shuffleButton = document.getElementById("shuffleBtn");
+    // function shuffleImages() {
+    //   let shuffledArray = imgOrder.slice();
+    //   console.log(shuffledArray);
+    //   for (let i = shuffledArray.length - 1; i > 0; i--) {
+    //     const j = Math.floor(Math.random() * (i + 1));
+    //     [shuffledArray[i], shuffledArray[j]] = [
+    //       shuffledArray[j],
+    //       shuffledArray[i],
+    //     ];
+    //   }
+    //   return shuffledArray;
+    // }
 
-      if (Math.abs(mouseAngle) > upperBound) {
-        player.flipX = false;
-        if (player.curAnim() != "walk-side") player.play("walk-side");
-        player.direction = "right";
-        return;
-      }
+    // shuffleButton.addEventListener("click", shuffleImages);
 
-      if (Math.abs(mouseAngle) < lowerBound) {
-        player.flipX = true;
-        if (player.curAnim() != "walk-side") player.play("walk-side");
-        player.direction = "left";
-        return;
-      }
-    });
+    // function createPuzzle() {
+    //   const tomArrayTillBilder = [];
+    //   const imageSrc = [
+    //     "/images/1.jpg",
+    //     "/images/2.jpg",
+    //     "/images/3.jpg",
+    //     "/images/4.jpg",
+    //     "/images/5.jpg",
+    //     "/images/6.jpg",
+    //     "/images/7.jpg",
+    //     "/images/8.jpg",
+    //     "/images/9.jpg",
+    //     "/images/10.jpg",
+    //     "/images/11.jpg",
+    //     "/images/12.jpg",
+    //   ];
 
-    kaBoom.onMouseRelease(() => {
-      if (player.direction === "down") {
-        player.play("idle-down");
-        return;
-      }
-      if (player.direction === "up") {
-        player.play("idle-up");
-        return;
-      }
+    //   class Box {
+    //     constructor(index, item) {
+    //       this.index = index;
+    //       this.item = item;
+    //     }
+    //     changeItem(newItem) {
+    //       this.item = newItem;
+    //     }
+    //   }
 
-      player.play("idle-side");
-    });
+    //   class Tile {
+    //     constructor(index, position, src) {
+    //       this.index = index;
+    //       this.position = position;
+    //       this.src = src;
+    //     }
+    //     changePosition(newPosition) {
+    //       this.position = newPosition;
+    //     }
+    //   }
+
+    //   function skapaBildObjekt() {
+    //     for (let i = 0; i < imageSrc.length; i++) {
+    //       let position = i + 1;
+    //       const tile = new Tile(position, 0, imageSrc[i]);
+    //       laggBilderIBox(position, tile);
+    //     }
+    //   }
+
+    //   function laggBilderIBox(index, tile) {
+    //     const box = new Box(index, tile);
+    //     tomArrayTillBilder.push(box);
+    //   }
+
+    //   function skapaSlumpmassigPosition() {
+    //     for (let i = 0; i < tomArrayTillBilder.length; i++) {
+    //       let position = Math.floor(Math.random() * 12) + 1;
+    //       return position;
+    //     }
+    //   }
+
+    //   function shuffleImages() {
+    //     skapaBildObjekt();
+    //     for (let i = 0; i < tomArrayTillBilder.length; i++) {
+    //       let newPosition = skapaSlumpmassigPosition();
+    //       tomArrayTillBilder[i].item.changePosition(newPosition);
+    //       let position = tomArrayTillBilder[i].item.position;
+    //       let src = tomArrayTillBilder[i].item.src;
+    //       console.log(src);
+    //       createHtmlTile(position, src);
+    //     }
+    //   }
+
+    //   shuffleImages();
+
+    //   function createHtmlTile(position, tileObject) {
+    //     let tile = document.createElement("img");
+    //     tile.id = position;
+    //     tile.src = tileObject;
+
+    //     tile.addEventListener("dragstart", dragStart);
+    //     tile.addEventListener("dragover", dragOver);
+    //     tile.addEventListener("dragenter", dragEnter);
+    //     tile.addEventListener("dragleave", dragLeave);
+    //     tile.addEventListener("drop", dragDrop);
+    //     tile.addEventListener("dragend", dragEnd);
+
+    //     document.getElementById("board").append(tile);
+    //     console.log(tile);
+    //   }
+
+    //   function dragStart() {
+    //     currTile = this;
+    //   }
+
+    //   function dragOver(e) {
+    //     e.preventDefault();
+    //   }
+
+    //   function dragEnter(e) {
+    //     e.preventDefault();
+    //   }
+
+    //   function dragLeave() {}
+
+    //   function dragDrop() {
+    //     otherTile = this;
+    //   }
+
+    //   function dragEnd() {
+    //     let currImg = currTile.src;
+    //     let otherImg = otherTile.src;
+    //     currTile.src = otherImg;
+    //     otherTile.src = currImg;
+    //   }
+
+    //   const puzzleImages = document.images;
+
+    //   for (let i = 0; i < puzzleImages.length; i++) {
+    //     puzzleImages[i].style.width = "220px";
+    //     puzzleImages[i].style.height = "228px";
+    //     puzzleImages[i].style.border = "3px solid #202121";
+    //   }
+    // }
+
+    // createPuzzle();
   });
 
-  kaBoom.go("puzzle");
+  // funktion tar bort bitarna
+  function clearPieces(tile) {}
+
+  kaBoom.go("puzzleScene");
 }

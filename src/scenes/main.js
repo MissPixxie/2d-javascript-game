@@ -1,29 +1,36 @@
 import { dialogueData, scaleFactor, background } from "../constants";
 import { kaBoom } from "../kaboomCtx";
-import { displayDialogue, setCamScale } from "../utils";
+import {
+  displayDialogue,
+  displayFirstDialogue,
+  displayChifferDialogue,
+  setCamScale,
+} from "../utils";
+import ChangeScene from "../world";
 
-export default function Main() {
+export default function main(puzzleStatus) {
   kaBoom.loadSprite("spritesheet", "../spritesheet.png", {
     sliceX: 39,
     sliceY: 31,
     anims: {
-      "idle-down": 956,
-      "walk-down": { from: 959, to: 957, loop: true, speed: 8 },
-      "idle-side": 995,
-      "walk-side": { from: 996, to: 998, loop: true, speed: 8 },
-      "idle-up": 1034,
-      "walk-up": { from: 1035, to: 1037, loop: true, speed: 8 },
-      bunnymove: { from: 780, to: 781, loop: true, speed: 2 },
-      "full-health": 546,
+      "idle-down": 870,
+      "walk-down": { from: 871, to: 872, loop: true, speed: 8 },
+      "idle-side": 873,
+      "walk-side": { from: 976, to: 978, loop: true, speed: 8 },
+      "idle-up": 1014,
+      "walk-up": { from: 1015, to: 1017, loop: true, speed: 8 },
+      balloonmove: { from: 713, to: 712, loop: true, speed: 2 },
+      ekkomove: { from: 792, to: 793, loop: true, speed: 2 },
     },
   });
 
-  kaBoom.loadSprite("map", "../map.png");
+  kaBoom.loadSprite("map", "../map2.png");
 
   kaBoom.setBackground(kaBoom.Color.fromHex(background));
 
   kaBoom.scene("main", async () => {
-    const mapData = await (await fetch("../map.json")).json();
+
+    const mapData = await (await fetch("../map2.json")).json();
     const layers = mapData.layers;
 
     const map = kaBoom.add([
@@ -31,6 +38,7 @@ export default function Main() {
       kaBoom.pos(0),
       kaBoom.scale(scaleFactor),
     ]);
+
 
     // PLAYER //
     const player = kaBoom.make([
@@ -49,7 +57,17 @@ export default function Main() {
       "player",
     ]);
 
-    const bunny = kaBoom.make([
+    const ekko = kaBoom.make([
+      kaBoom.sprite("spritesheet", { anim: "ekkomove" }),
+      kaBoom.area(),
+      kaBoom.pos(),
+      kaBoom.body({ isStatic: true }),
+      kaBoom.anchor("top"),
+      kaBoom.scale(3),
+      "ekko",
+    ]);
+
+    const dog2 = kaBoom.make([
       kaBoom.sprite("spritesheet", { anim: "bunnymove" }),
       kaBoom.area(),
       kaBoom.pos(),
@@ -58,6 +76,17 @@ export default function Main() {
       kaBoom.scale(3),
       "bunny",
     ]);
+
+    const balloon = kaBoom.make([
+      kaBoom.sprite("spritesheet", { anim: "balloonmove" }),
+      kaBoom.area(),
+      kaBoom.pos(),
+      kaBoom.body({ isStatic: true }),
+      kaBoom.anchor("top"),
+      kaBoom.scale(3),
+      "balloon",
+    ]);
+
 
     // BOUNDARIES //
     for (const layer of layers) {
@@ -79,10 +108,20 @@ export default function Main() {
           if (boundary.type === "hasDialogue") {
             player.onCollide(boundary.name, () => {
               player.isInDialogue = true;
-              displayDialogue(
-                dialogueData[boundary.name],
-                () => (player.isInDialogue = false)
-              );
+              if (boundary.name === "chiffer") {
+                console.log("chifferdialogue");
+                displayChifferDialogue(
+                  dialogueData[boundary.name],
+                  () => (player.isInDialogue = false)
+                );
+              } else if (boundary.name === "puzzle") {
+                ChangeScene("puzzleScene");
+              } else {
+                displayDialogue(
+                  dialogueData[boundary.name],
+                  () => (player.isInDialogue = false)
+                );
+              }
             });
           }
         }
@@ -99,12 +138,20 @@ export default function Main() {
             kaBoom.add(player);
             continue;
           }
-          if (entity.name === "bunny") {
-            bunny.pos = kaBoom.vec2(
+          if (entity.name === "balloon") {
+            balloon.pos = kaBoom.vec2(
               (map.pos.x + entity.x) * scaleFactor,
               (map.pos.y + entity.y) * scaleFactor
             );
-            kaBoom.add(bunny);
+            kaBoom.add(balloon);
+            continue;
+          }
+          if (entity.name === "ekko") {
+            ekko.pos = kaBoom.vec2(
+              (map.pos.x + entity.x) * scaleFactor,
+              (map.pos.y + entity.y) * scaleFactor
+            );
+            kaBoom.add(ekko);
             continue;
           }
         }

@@ -1,8 +1,25 @@
 export const scaleFactor = 4;
 
-export const background = "#966147";
+export const background = "#202121";
 
 export const dialogueData = {
-  water: "No thank you I don't want to swim",
-  bunny: "Fluffy bunny!",
+  firstPrompt:
+    "Grattis på födelsedagen älskling!" +
+    "<br>" +
+    "<br>" +
+    "Du kan vara lite svår att köpa present till ibland men du tycker om klurigheter så jag gjorde en spel till dig som du måste ta dig igenom för att hitta din slutgiltiga present." +
+    "<br>" +
+    "<br>" +
+    "Jag älskar dig ♥︎",
+  secondPrompt: "hello",
+  computer: "Biip boop...",
+  ekko: "Walk? ♥︎ ",
+  ahri: "I prefer computer games",
+  tv:
+    "History channel." +
+    "<br>" +
+    "<br>" +
+    "Blaise de Vigenère, född 5 april 1523, död 1596, var en fransk diplomat och....",
+  chiffer:
+    "Dz csxåzv qcsr aoeql ytpwo, eiy xvk jc arbs ymy dhirsdftzy, zpå tv uoä?",
 };

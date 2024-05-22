@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" src="style.css" />
     <title>Vite App</title>
     <style>
 
@@ -41,6 +42,42 @@
         filter: drop-shadow(0 0 0.75rem rgb(112, 112, 112));
       }
 
+      #first-textbox {
+        display: flex;
+        flex-wrap: wrap;
+        width: 70%;
+        background-color: #202121;
+        margin: auto;
+      }
+
+      #chiffer-textbox {
+        position: absolute;
+        left: 10%;
+        right: 10%;
+        bottom: 2vh;
+        min-height: 10vh;
+        background-color: white;
+        border-radius: 3px;
+        outline: solid;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        row-gap: 5%;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+        word-spacing: 0.2rem;
+        filter: drop-shadow(0 0 0.75rem rgb(112, 112, 112));
+      }
+
+      .inner-textbox {
+        display: flex;
+        column-gap: 10%;
+        align-items: center;
+        width: 100%;
+      }
+
+
       .ui-text {
         margin: 0;
         user-select: none;
@@ -54,12 +91,35 @@
           font-size: inherit;
       }
 
-      .btn-container {
+      .ui-start-btn {
+        width: 30%;
+        font-family: monospace;
+          border-style: none;
+          border-radius: 3px;
+          padding: 1rem;
+          font-size: inherit;
+      }
+
+      .ui-check-btn {
+        font-family: monospace;
+        background-color: rgb(104, 151, 34);
+          border-style: none;
+          border-radius: 7px;
+          padding: 1rem;
+          font-size: 1.2rem;
+      }
+
+      .ui-check-btn:hover {
+        background-color: rgb(191, 233, 129);
+      }
+
+      #btn-container {
+        align-items: center;
         align-self: flex-end;
         margin-top: 1rem;
       }
 
-      .note {
+      #note {
         position: absolute;
         left: 5%;
         top: 1vh;
@@ -69,19 +129,82 @@
         user-select: none;
       }
 
+.input-container {
+  display: flex;
+  align-items: center;
+  column-gap: 10%;
+}
+
+.input {
+  width: 30px;
+  height: 50px;
+  border: 1px solid rgb(29, 29, 29);
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+#submit-btn-container {
+  align-items: center;
+}
+
     </style>
   </head>
   <body>
     <div id="app">
       <div id="ui">
-        <p class="note">Tap/Click around to move</p>
-        <p class="health"></p>
+        <div id="first-textbox-container" style="display: none">
+          <div id="first-textbox">
+            <div>
+            <p id="first-dialogue" class="ui-text"></p>
+            </div>
+            <div id="first-btn-container" style="display: none">
+              <button id="start" class="ui-start-btn">Start</button>
+            </div>
+          </div>
+        </div>
+
+
+
+        <p id="note" style="display: none">Tap/Click around to move</p>
         <div id="textbox-container" style="display: none">
         <div id="textbox">
           <p id="dialogue" class="ui-text"></p>
-          <div class="btn-container">
+          <div id="btn-container">
             <button id="close" class="ui-close-btn">Close</button>
           </div>
+        </div>
+      </div>
+
+
+
+
+      <div id="chiffer-container" style="display: none">
+        <div id="chiffer-textbox">
+          <div class="inner-textbox">
+            <h5>Key phrase:</h5>
+          <div class="input-container">
+          <input type="text" maxlength="1" id="input-1" class="input" required placeholder="A"/>
+          <input type="text" maxlength="1" id="input-2" class="input" required placeholder="B"/>
+          <input type="text" maxlength="1" id="input-3" class="input" required placeholder="C"/>
+          <input type="text" maxlength="1" id="input-4" class="input" required placeholder="D"/>
+          </div>
+          <div id="submit-btn-container">
+            <button id="check-key" class="ui-check-btn">Check key</button>
+          </div>
+          </div>
+          <p id="chiffer-dialogue" class="ui-text" style="margin-top: 1%;"></p>
+          <div id="btn-container">
+            <button id="close-chiffer" class="ui-close-btn">Close</button>
+          </div>
+        </div>
+      </div>
+      <div id="puzzleContainer" style="display: none; min-height: 100vh;">
+        <div id="board"></div>
+        <!-- <div id="submit-btn-container">
+          <button id="shuffleBtn" class="ui-btn">Shuffle</button>
+        </div> -->
+        <div id="btn-container">
+          <button id="backBtn" class="ui-btn">Back</button>
         </div>
       </div>
       <canvas id="game"></canvas>

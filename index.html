@@ -100,6 +100,15 @@
           font-size: inherit;
       }
 
+      .ui-back-btn {
+        font-family: monospace;
+          border-style: none;
+          border-radius: 5px;
+          padding: .8rem 3rem;
+          font-size: inherit;
+          border: 3px solid white;
+      }
+
       .ui-check-btn {
         font-family: monospace;
         background-color: rgb(104, 151, 34);
@@ -117,6 +126,10 @@
         align-items: center;
         align-self: flex-end;
         margin-top: 1rem;
+      }
+
+      #back-btn-container {
+        width: 20%;
       }
 
       #note {
@@ -146,6 +159,12 @@
 #submit-btn-container {
   align-items: center;
 }
+
+#puzzleHeader {
+  width: 100%;
+  text-align: center;
+}
+
 
     </style>
   </head>
@@ -199,12 +218,17 @@
         </div>
       </div>
       <div id="puzzleContainer" style="display: none; min-height: 100vh;">
-        <div id="board"></div>
+
+        <!-- <h3 id="puzzleHeader">Solve the puzzle, find the clue</h3> -->
+        <div id="boardContainer" style=" display: flex; flex-grow: 3; justify-content: flex-end;">
+          <div id="board"></div>
+        </div>
         <!-- <div id="submit-btn-container">
           <button id="shuffleBtn" class="ui-btn">Shuffle</button>
         </div> -->
-        <div id="btn-container">
-          <button id="backBtn" class="ui-btn">Back</button>
+  
+        <div id="back-btn-container">
+          <button id="backBtn" class="ui-back-btn">Back</button>
         </div>
       </div>
       <canvas id="game"></canvas>

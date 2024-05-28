@@ -5,20 +5,14 @@ import ChangeScene from "../world";
 
 export default function puzzleScene() {
   kaBoom.setBackground(kaBoom.Color.fromHex(background));
+  const backBtn = document.getElementById("backBtn");
+  const puzzleContainer = document.getElementById("puzzleContainer");
 
   kaBoom.scene("puzzleScene", async () => {
-    const backBtn = document.getElementById("backBtn");
-    function backToMain() {
-      const puzzleContainer = document.getElementById("puzzleContainer");
-      puzzleContainer.style.display = "none";
-      ChangeScene("main");
-    }
-    backBtn.addEventListener("click", backToMain);
-
-    const puzzleContainer = document.getElementById("puzzleContainer");
     puzzleContainer.style.display = "block";
     puzzleContainer.style.backgroundColor = "#202121";
     puzzleContainer.style.display = "flex";
+    puzzleContainer.style.flexWrap = "wrap";
     puzzleContainer.style.justifyContent = "center";
     puzzleContainer.style.alignItems = "center";
 
@@ -26,9 +20,14 @@ export default function puzzleScene() {
 
     puzzleBoard.style.width = "1000px";
     puzzleBoard.style.height = "700px";
-    puzzleBoard.style.margin = "auto";
     puzzleBoard.style.display = "flex";
     puzzleBoard.style.flexWrap = "wrap";
+
+    function backToMain() {
+      puzzleContainer.style.display = "none";
+      ChangeScene("main");
+    }
+    backBtn.addEventListener("click", backToMain);
 
     var columns = 4;
     var rows = 3;

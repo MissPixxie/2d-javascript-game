@@ -16,9 +16,9 @@ export default function main(puzzleStatus) {
       "idle-down": 870,
       "walk-down": { from: 871, to: 872, loop: true, speed: 8 },
       "idle-side": 873,
-      "walk-side": { from: 976, to: 978, loop: true, speed: 8 },
-      "idle-up": 1014,
-      "walk-up": { from: 1015, to: 1017, loop: true, speed: 8 },
+      "walk-side": { from: 874, to: 875, loop: true, speed: 8 },
+      "idle-up": 876,
+      "walk-up": { from: 877, to: 878, loop: true, speed: 8 },
       balloonmove: { from: 713, to: 712, loop: true, speed: 2 },
       ekkomove: { from: 792, to: 793, loop: true, speed: 2 },
     },
@@ -29,7 +29,6 @@ export default function main(puzzleStatus) {
   kaBoom.setBackground(kaBoom.Color.fromHex(background));
 
   kaBoom.scene("main", async () => {
-
     const mapData = await (await fetch("../map2.json")).json();
     const layers = mapData.layers;
 
@@ -38,7 +37,6 @@ export default function main(puzzleStatus) {
       kaBoom.pos(0),
       kaBoom.scale(scaleFactor),
     ]);
-
 
     // PLAYER //
     const player = kaBoom.make([
@@ -86,7 +84,6 @@ export default function main(puzzleStatus) {
       kaBoom.scale(3),
       "balloon",
     ]);
-
 
     // BOUNDARIES //
     for (const layer of layers) {

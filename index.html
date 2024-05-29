@@ -23,7 +23,7 @@
         height: 100%;
       }
 
-      #textbox {
+      .textboxCommon {
         position: absolute;
         left: 10%;
         right: 10%;
@@ -51,23 +51,7 @@
       }
 
       #chiffer-textbox {
-        position: absolute;
-        left: 10%;
-        right: 10%;
-        bottom: 2vh;
-        min-height: 10vh;
-        background-color: white;
-        border-radius: 3px;
-        outline: solid;
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
         row-gap: 5%;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        align-items: flex-start;
-        word-spacing: 0.2rem;
-        filter: drop-shadow(0 0 0.75rem rgb(112, 112, 112));
       }
 
       .inner-textbox {
@@ -83,7 +67,7 @@
         user-select: none;
       }
 
-      .ui-close-btn {
+      .uiCommonBtn {
         font-family: monospace;
           border-style: none;
           border-radius: 3px;
@@ -93,28 +77,11 @@
 
       .ui-start-btn {
         width: 30%;
-        font-family: monospace;
-          border-style: none;
-          border-radius: 3px;
-          padding: 1rem;
-          font-size: inherit;
-      }
-
-      .ui-back-btn {
-        font-family: monospace;
-          border-style: none;
-          border-radius: 5px;
-          padding: .8rem 3rem;
-          font-size: inherit;
-          border: 3px solid white;
       }
 
       .ui-check-btn {
-        font-family: monospace;
         background-color: rgb(104, 151, 34);
-          border-style: none;
           border-radius: 7px;
-          padding: 1rem;
           font-size: 1.2rem;
       }
 
@@ -177,7 +144,7 @@
             <p id="first-dialogue" class="ui-text"></p>
             </div>
             <div id="first-btn-container" style="display: none">
-              <button id="start" class="ui-start-btn">Start</button>
+              <button id="start" class="uiCommonBtn ui-start-btn">Start</button>
             </div>
           </div>
         </div>
@@ -186,10 +153,24 @@
 
         <p id="note" style="display: none">Tap/Click around to move</p>
         <div id="textbox-container" style="display: none">
-        <div id="textbox">
+        <div id="textbox" class="textboxCommon">
           <p id="dialogue" class="ui-text"></p>
           <div id="btn-container">
-            <button id="close" class="ui-close-btn">Close</button>
+            <button id="close" class="uiCommonBtn ui-close-btn">Close</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="ahri-textbox-container" style="display: none">
+        <div id="ahri-textbox">
+          <p id="ahri-dialogue" class="ui-text"></p>
+          <div id="choice-btn-container">
+            <button id="choiceOne" class="ui-close-btn">Dator</button>
+            <button id="choiceTwo" class="ui-close-btn">Mobil</button>
+            <button id="choiceThree" class="ui-close-btn">Konsol</button>
+          </div>
+          <div id="ahri-btn-container">
+            <button id="ahri-close" class="uiCommonBtn ui-close-btn">Close</button>
           </div>
         </div>
       </div>
@@ -198,7 +179,7 @@
 
 
       <div id="chiffer-container" style="display: none">
-        <div id="chiffer-textbox">
+        <div id="chiffer-textbox" class="textboxCommon">
           <div class="inner-textbox">
             <h5>Key phrase:</h5>
           <div class="input-container">
@@ -213,7 +194,7 @@
           </div>
           <p id="chiffer-dialogue" class="ui-text" style="margin-top: 1%;"></p>
           <div id="btn-container">
-            <button id="close-chiffer" class="ui-close-btn">Close</button>
+            <button id="close-chiffer" class="uiCommonBtn ui-close-btn">Close</button>
           </div>
         </div>
       </div>
@@ -228,7 +209,7 @@
         </div> -->
   
         <div id="back-btn-container">
-          <button id="backBtn" class="ui-back-btn">Back</button>
+          <button id="backBtn" class="uiCommonBtn ui-back-btn">Back</button>
         </div>
       </div>
       <canvas id="game"></canvas>

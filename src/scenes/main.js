@@ -8,6 +8,7 @@ import { kaBoom } from "../kaboomCtx";
 import {
   displayDialogue,
   displayFirstDialogue,
+  displayAhriDialogue,
   displayChifferDialogue,
   setCamScale,
 } from "../utils";
@@ -132,7 +133,7 @@ export default function main(puzzleStatus) {
                   ahri.play("awake");
                   ahri.status = "awake";
                 }
-                displayDialogue(dialogueData[boundary.name], () => {
+                displayAhriDialogue(dialogueData[boundary.name], () => {
                   player.isInDialogue = false;
                   ahri.play("idle");
                   ahri.status = "idle";

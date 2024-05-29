@@ -15,7 +15,7 @@ export const dialogueData = {
   secondPrompt: "hello",
   computer: "Biip boop...",
   ekko: "Walk? ♥︎ ",
-  ahri: "I prefer computer games",
+  ahri: "Vad spelar du helst på?",
   tv:
     "History channel." +
     "<br>" +
@@ -24,5 +24,3 @@ export const dialogueData = {
   chiffer:
     "Dz csxåzv qcsr aoeql ytpwo, eiy xvk jc arbs ymy dhirsdftzy, zpå tv uoä?",
 };
-
-function ahriDialogue() {}

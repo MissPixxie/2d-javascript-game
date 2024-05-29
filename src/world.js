@@ -13,4 +13,4 @@ kaBoom.scene("puzzleScene", puzzleScene);
 export default function ChangeScene(nameOfScene) {
   kaBoom.go(nameOfScene);
 }
-ChangeScene("puzzleScene");
+ChangeScene("main");

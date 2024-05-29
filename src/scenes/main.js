@@ -1,4 +1,9 @@
-import { dialogueData, scaleFactor, background } from "../constants";
+import {
+  dialogueData,
+  scaleFactor,
+  scaleFactor2,
+  background,
+} from "../constants";
 import { kaBoom } from "../kaboomCtx";
 import {
   displayDialogue,
@@ -20,7 +25,16 @@ export default function main(puzzleStatus) {
       "idle-up": 876,
       "walk-up": { from: 877, to: 878, loop: true, speed: 8 },
       balloonmove: { from: 713, to: 712, loop: true, speed: 2 },
-      ekkomove: { from: 792, to: 793, loop: true, speed: 2 },
+      ekkomove: { from: 792, to: 793, loop: true, speed: 3 },
+    },
+  });
+
+  kaBoom.loadSprite("ahri", "../ahri.png", {
+    sliceX: 2,
+    sliceY: 2,
+    anims: {
+      idle: { from: 0, to: 1, loop: true, speed: 0.7 },
+      awake: { from: 2, to: 3, loop: true, speed: 1 },
     },
   });
 
@@ -41,7 +55,6 @@ export default function main(puzzleStatus) {
     // PLAYER //
     const player = kaBoom.make([
       kaBoom.sprite("spritesheet", { anim: "idle-down" }),
-      kaBoom.health(10),
       kaBoom.area(),
       kaBoom.pos(),
       kaBoom.body(),
@@ -65,14 +78,17 @@ export default function main(puzzleStatus) {
       "ekko",
     ]);
 
-    const dog2 = kaBoom.make([
-      kaBoom.sprite("spritesheet", { anim: "bunnymove" }),
+    const ahri = kaBoom.make([
+      kaBoom.sprite("ahri", { anim: "idle" }),
       kaBoom.area(),
       kaBoom.pos(),
       kaBoom.body({ isStatic: true }),
       kaBoom.anchor("top"),
-      kaBoom.scale(3),
-      "bunny",
+      kaBoom.scale(scaleFactor),
+      {
+        status: "idle",
+      },
+      "ahri",
     ]);
 
     const balloon = kaBoom.make([
@@ -106,18 +122,25 @@ export default function main(puzzleStatus) {
             player.onCollide(boundary.name, () => {
               player.isInDialogue = true;
               if (boundary.name === "chiffer") {
-                console.log("chifferdialogue");
-                displayChifferDialogue(
-                  dialogueData[boundary.name],
-                  () => (player.isInDialogue = false)
-                );
+                displayChifferDialogue(dialogueData[boundary.name], () => {
+                  player.isInDialogue = false;
+                });
               } else if (boundary.name === "puzzle") {
                 ChangeScene("puzzleScene");
+              } else if (boundary.name === "ahri") {
+                if (ahri.curAnim() != "awake") {
+                  ahri.play("awake");
+                  ahri.status = "awake";
+                }
+                displayDialogue(dialogueData[boundary.name], () => {
+                  player.isInDialogue = false;
+                  ahri.play("idle");
+                  ahri.status = "idle";
+                });
               } else {
-                displayDialogue(
-                  dialogueData[boundary.name],
-                  () => (player.isInDialogue = false)
-                );
+                displayDialogue(dialogueData[boundary.name], () => {
+                  player.isInDialogue = false;
+                });
               }
             });
           }
@@ -149,6 +172,14 @@ export default function main(puzzleStatus) {
               (map.pos.y + entity.y) * scaleFactor
             );
             kaBoom.add(ekko);
+            continue;
+          }
+          if (entity.name === "ahri") {
+            ahri.pos = kaBoom.vec2(
+              (map.pos.x + entity.x) * scaleFactor,
+              (map.pos.y + entity.y) * scaleFactor
+            );
+            kaBoom.add(ahri);
             continue;
           }
         }

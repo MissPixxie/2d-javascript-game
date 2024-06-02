@@ -116,7 +116,6 @@ export function displayChifferDialogue(text, onDisplayEnd) {
 
 // AHRI //
 export function displayAhriDialogue(text, onDisplayEnd) {
-  console.log(text);
   const dialogueUI = document.getElementById("ahri-textbox-container");
   const dialogue = document.getElementById("ahri-dialogue");
 
@@ -133,6 +132,60 @@ export function displayAhriDialogue(text, onDisplayEnd) {
     }
     clearInterval(intervalRef);
   }, 5);
+
+  const computer = document
+    .getElementById("pokemonGo")
+    .addEventListener("click", returnChoiceText);
+  const phone = document
+    .getElementById("wobble")
+    .addEventListener("click", returnChoiceText);
+  const consoleG = document
+    .getElementById("swimming")
+    .addEventListener("click", returnChoiceText);
+
+  function returnChoiceText(event) {
+    const choice = event.target.id;
+
+    let text = "";
+    switch (choice) {
+      case "pokemonGo":
+        text = "Pokemon Go är roligt, då går vi och utforskar mycket!";
+        break;
+      case "wobble":
+        text = "Wobble skål är min favorit också!!";
+        break;
+      case "swimming":
+        text = "Bada i havet kan vara roligt, men jag vågar inte simma...";
+        break;
+    }
+    return removeButtonsShowAnswer(text);
+
+    // onDisplayEnd();
+    // dialogueUI.style.display = "none";
+    // dialogue.innerHTML = "";
+    // clearInterval(intervalRef);
+    // this.removeEventListener("click", returnChoiceText);
+  }
+
+  function removeButtonsShowAnswer(text) {
+    console.log(text);
+    let index = 0;
+    let currentText = "";
+    const intervalRef = setInterval(() => {
+      if (index < text.length) {
+        currentText += text[index];
+        dialogue.innerHTML = currentText;
+        index++;
+        return;
+      }
+      clearInterval(intervalRef);
+    }, 5);
+  }
+  // computer.addEventListener("click", returnChoiceText);
+
+  // computer.addEventListener("click", test);
+  // phone.addEventListener("click", test);
+  // console.addEventListener("click", test);
 
   const closeBtn = document.getElementById("ahri-close");
   function onCloseBtnClick() {

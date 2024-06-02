@@ -1,7 +1,12 @@
 import { dialogueData, scaleFactor, background } from "../constants";
 import { kaBoom } from "../kaboomCtx";
 import { displayDialogue, setCamScale, displayFirstDialogue } from "../utils";
-import ChangeScene from "../world";
+import {
+  previousScene,
+  setPreviousScene,
+  getPreviousScene,
+} from "../stateManager/globalStateManager.js";
+import ChangeScene from "./world.js";
 
 export default function puzzleScene() {
   kaBoom.setBackground(kaBoom.Color.fromHex(background));
@@ -25,7 +30,9 @@ export default function puzzleScene() {
 
     function backToMain() {
       puzzleContainer.style.display = "none";
-      ChangeScene("main");
+      setPreviousScene("puzzleScene");
+      console.log(getPreviousScene());
+      ChangeScene("apartmentScene");
     }
     backBtn.addEventListener("click", backToMain);
 

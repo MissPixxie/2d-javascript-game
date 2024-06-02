@@ -12,9 +12,17 @@ import {
   displayChifferDialogue,
   setCamScale,
 } from "../utils";
-import ChangeScene from "../world";
+import ChangeScene from "./world";
+import createPlayer from "../entities/player.js";
+import createAhri from "../entities/ahri.js";
+import createEkko from "../entities/ekko.js";
+import {
+  previousScene,
+  setPreviousScene,
+  getPreviousScene,
+} from "../stateManager/globalStateManager.js";
 
-export default function main(puzzleStatus) {
+export default function apartmentScene() {
   kaBoom.loadSprite("spritesheet", "../spritesheet.png", {
     sliceX: 39,
     sliceY: 31,
@@ -43,7 +51,7 @@ export default function main(puzzleStatus) {
 
   kaBoom.setBackground(kaBoom.Color.fromHex(background));
 
-  kaBoom.scene("main", async () => {
+  kaBoom.scene("apartmentScene", async () => {
     const mapData = await (await fetch("../map2.json")).json();
     const layers = mapData.layers;
 
@@ -54,43 +62,44 @@ export default function main(puzzleStatus) {
     ]);
 
     // PLAYER //
-    const player = kaBoom.make([
-      kaBoom.sprite("spritesheet", { anim: "idle-down" }),
-      kaBoom.area(),
-      kaBoom.pos(),
-      kaBoom.body(),
-      kaBoom.anchor("center"),
-      kaBoom.scale(scaleFactor),
-      {
-        speed: 250,
-        direction: "down",
-        isInDialogue: false,
-      },
-      "player",
-    ]);
 
-    const ekko = kaBoom.make([
-      kaBoom.sprite("spritesheet", { anim: "ekkomove" }),
-      kaBoom.area(),
-      kaBoom.pos(),
-      kaBoom.body({ isStatic: true }),
-      kaBoom.anchor("top"),
-      kaBoom.scale(3),
-      "ekko",
-    ]);
+    // const player = kaBoom.make([
+    //   kaBoom.sprite("spritesheet", { anim: "idle-down" }),
+    //   kaBoom.area(),
+    //   kaBoom.pos(),
+    //   kaBoom.body(),
+    //   kaBoom.anchor("center"),
+    //   kaBoom.scale(scaleFactor),
+    //   {
+    //     speed: 250,
+    //     direction: "down",
+    //     isInDialogue: false,
+    //   },
+    //   "player",
+    // ]);
 
-    const ahri = kaBoom.make([
-      kaBoom.sprite("ahri", { anim: "idle" }),
-      kaBoom.area(),
-      kaBoom.pos(),
-      kaBoom.body({ isStatic: true }),
-      kaBoom.anchor("top"),
-      kaBoom.scale(scaleFactor),
-      {
-        status: "idle",
-      },
-      "ahri",
-    ]);
+    // const ekko = kaBoom.make([
+    //   kaBoom.sprite("spritesheet", { anim: "ekkomove" }),
+    //   kaBoom.area(),
+    //   kaBoom.pos(),
+    //   kaBoom.body({ isStatic: true }),
+    //   kaBoom.anchor("top"),
+    //   kaBoom.scale(3),
+    //   "ekko",
+    // ]);
+
+    // const ahri = kaBoom.make([
+    //   kaBoom.sprite("ahri", { anim: "idle" }),
+    //   kaBoom.area(),
+    //   kaBoom.pos(),
+    //   kaBoom.body({ isStatic: true }),
+    //   kaBoom.anchor("top"),
+    //   kaBoom.scale(scaleFactor),
+    //   {
+    //     status: "idle",
+    //   },
+    //   "ahri",
+    // ]);
 
     const balloon = kaBoom.make([
       kaBoom.sprite("spritesheet", { anim: "balloonmove" }),
@@ -101,6 +110,10 @@ export default function main(puzzleStatus) {
       kaBoom.scale(3),
       "balloon",
     ]);
+
+    let player = null;
+    let ahri = null;
+    let ekko = null;
 
     // BOUNDARIES //
     for (const layer of layers) {
@@ -118,33 +131,32 @@ export default function main(puzzleStatus) {
             kaBoom.body({ isStatic: true }),
             boundary.name,
           ]);
-
-          if (boundary.type === "hasDialogue") {
-            player.onCollide(boundary.name, () => {
-              player.isInDialogue = true;
-              if (boundary.name === "chiffer") {
-                displayChifferDialogue(dialogueData[boundary.name], () => {
-                  player.isInDialogue = false;
-                });
-              } else if (boundary.name === "puzzle") {
-                ChangeScene("puzzleScene");
-              } else if (boundary.name === "ahri") {
-                if (ahri.curAnim() != "awake") {
-                  ahri.play("awake");
-                  ahri.status = "awake";
-                }
-                displayAhriDialogue(dialogueData[boundary.name], () => {
-                  player.isInDialogue = false;
-                  ahri.play("idle");
-                  ahri.status = "idle";
-                });
-              } else {
-                displayDialogue(dialogueData[boundary.name], () => {
-                  player.isInDialogue = false;
-                });
-              }
-            });
-          }
+          // if (boundary.type === "hasDialogue") {
+          //   player.onCollide(boundary.name, () => {
+          //     player.isInDialogue = true;
+          //     if (boundary.name === "chiffer") {
+          //       displayChifferDialogue(dialogueData[boundary.name], () => {
+          //         player.isInDialogue = false;
+          //       });
+          //     } else if (boundary.name === "puzzle") {
+          //       //ChangeScene("puzzleScene");
+          //     } else if (boundary.name === "ahri") {
+          //       if (ahri.curAnim() != "awake") {
+          //         ahri.play("awake");
+          //         ahri.status = "awake";
+          //       }
+          //       displayAhriDialogue(dialogueData[boundary.name], () => {
+          //         player.isInDialogue = false;
+          //         ahri.play("idle");
+          //         ahri.status = "idle";
+          //       });
+          //     } else {
+          //       displayDialogue(dialogueData[boundary.name], () => {
+          //         player.isInDialogue = false;
+          //       });
+          //     }
+          //   });
+          // }
         }
         continue;
       }
@@ -152,13 +164,30 @@ export default function main(puzzleStatus) {
       if (layer.name === "spawnpoint") {
         for (const entity of layer.objects) {
           if (entity.name === "player") {
-            player.pos = kaBoom.vec2(
-              (map.pos.x + entity.x) * scaleFactor,
-              (map.pos.y + entity.y) * scaleFactor
+            player = kaBoom.add(
+              createPlayer(
+                kaBoom.vec2(
+                  (map.pos.x + entity.x) * scaleFactor,
+                  (map.pos.y + entity.y) * scaleFactor
+                )
+              )
             );
-            kaBoom.add(player);
+            // player.pos = kaBoom.vec2(
+            //   (map.pos.x + entity.x) * scaleFactor,
+            //   (map.pos.y + entity.y) * scaleFactor
+            // );
+            // kaBoom.add(player);
             continue;
           }
+          // if (entity.name === "playerPuzzle") {
+          //   player.pos = kaBoom.vec2(
+          //     (map.pos.x + entity.x) * scaleFactor,
+          //     (map.pos.y + entity.y) * scaleFactor
+          //   );
+          //   kaBoom.add(player);
+          //   continue;
+          // }
+
           if (entity.name === "balloon") {
             balloon.pos = kaBoom.vec2(
               (map.pos.x + entity.x) * scaleFactor,
@@ -168,19 +197,25 @@ export default function main(puzzleStatus) {
             continue;
           }
           if (entity.name === "ekko") {
-            ekko.pos = kaBoom.vec2(
-              (map.pos.x + entity.x) * scaleFactor,
-              (map.pos.y + entity.y) * scaleFactor
+            ekko = kaBoom.add(
+              createEkko(
+                kaBoom.vec2(
+                  (map.pos.x + entity.x) * scaleFactor,
+                  (map.pos.y + entity.y) * scaleFactor
+                )
+              )
             );
-            kaBoom.add(ekko);
             continue;
           }
           if (entity.name === "ahri") {
-            ahri.pos = kaBoom.vec2(
-              (map.pos.x + entity.x) * scaleFactor,
-              (map.pos.y + entity.y) * scaleFactor
+            ahri = kaBoom.add(
+              createAhri(
+                kaBoom.vec2(
+                  (map.pos.x + entity.x) * scaleFactor,
+                  (map.pos.y + entity.y) * scaleFactor
+                )
+              )
             );
-            kaBoom.add(ahri);
             continue;
           }
         }
@@ -257,5 +292,5 @@ export default function main(puzzleStatus) {
     });
   });
 
-  kaBoom.go("main");
+  kaBoom.go("apartmentScene");
 }

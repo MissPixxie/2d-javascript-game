@@ -7,112 +7,126 @@
     <title>Vite App</title>
     <style>
 
-      body {
-        font-family: monospace;
-        font-size: 2rem;
-        overflow: hidden;
-      }
+body {
+  font-family: monospace;
+  font-size: 2rem;
+  overflow: hidden;
+}
 
-      #app {
-        width: 100%;
-        height: 100%;
-      }
+#app {
+  width: 100%;
+  height: 100%;
+}
 
-      #ui {
-        width: 100%;
-        height: 100%;
-      }
+#ui {
+  width: 100%;
+  height: 100%;
+}
 
-      .textboxCommon {
-        position: absolute;
-        left: 10%;
-        right: 10%;
-        bottom: 2vh;
-        min-height: 10vh;
-        background-color: white;
-        border-radius: 3px;
-        outline: solid;
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        align-items: flex-start;
-        word-spacing: 0.2rem;
-        filter: drop-shadow(0 0 0.75rem rgb(112, 112, 112));
-      }
+.textboxCommon {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 4vh;
+  max-width: 70%;
+  min-height: 10vh;
+  background-color: white;
+  border-radius: 3px;
+  outline: solid;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  word-spacing: 0.2rem;
+  filter: drop-shadow(0 0 0.75rem rgb(112, 112, 112));
+}
 
-      #first-textbox {
-        display: flex;
-        flex-wrap: wrap;
-        width: 70%;
-        background-color: #202121;
-        margin: auto;
-      }
+#first-textbox {
+  display: flex;
+  flex-wrap: wrap;
+  width: 70%;
+  background-color: #202121;
+  margin: auto;
+}
 
-      #chiffer-textbox {
-        row-gap: 5%;
-      }
+#chiffer-textbox {
+  row-gap: 5%;
+}
 
-      .inner-textbox {
-        display: flex;
-        column-gap: 10%;
-        align-items: center;
-        width: 100%;
-      }
+.inner-textbox {
+  display: flex;
+  column-gap: 10%;
+  align-items: center;
+  width: 100%;
+}
 
+.ui-text {
+  margin: 0;
+  user-select: none;
+}
 
-      .ui-text {
-        margin: 0;
-        user-select: none;
-      }
+.uiCommonBtn {
+  font-family: monospace;
+  border-style: none;
+  border-radius: 3px;
+  padding: 1rem;
+  font-size: inherit;
+}
 
-      .uiCommonBtn {
-        font-family: monospace;
-          border-style: none;
-          border-radius: 3px;
-          padding: 1rem;
-          font-size: inherit;
-      }
+.ui-start-btn {
+  width: 30%;
+}
 
-      .ui-start-btn {
-        width: 30%;
-      }
+.ui-choice-btn {
+  background-color: aqua;
+}
+.ui-choice-btn:hover {
+  background-color: rgb(59, 104, 104);
+}
 
-      .ui-check-btn {
-        background-color: rgb(104, 151, 34);
-          border-radius: 7px;
-          font-size: 1.2rem;
-      }
+.ui-check-btn {
+  background-color: rgb(104, 151, 34);
+  border-radius: 7px;
+  font-size: 1.2rem;
+}
 
-      .ui-check-btn:hover {
-        background-color: rgb(191, 233, 129);
-      }
+.ui-check-btn:hover {
+  background-color: rgb(191, 233, 129);
+}
 
-      #btn-container {
-        align-items: center;
-        align-self: flex-end;
-        margin-top: 1rem;
-      }
+#btn-container {
+  align-items: center;
+  align-self: flex-end;
+  margin-top: 1rem;
+}
 
-      #back-btn-container {
-        width: 20%;
-      }
+#back-btn-container {
+  width: 20%;
+}
 
-      #note {
-        position: absolute;
-        left: 5%;
-        top: 1vh;
-        display: flex;
-        flex-direction: column;
-        color: rgb(238, 238, 238);
-        user-select: none;
-      }
+#note {
+  position: absolute;
+  left: 5%;
+  top: 1vh;
+  display: flex;
+  flex-direction: column;
+  color: rgb(238, 238, 238);
+}
+
 
 .input-container {
   display: flex;
   align-items: center;
   column-gap: 10%;
+}
+
+.ahritextbox {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .input {
@@ -162,14 +176,14 @@
       </div>
 
       <div id="ahri-textbox-container" style="display: none">
-        <div id="ahri-textbox">
-          <p id="ahri-dialogue" class="ui-text"></p>
-          <div id="choice-btn-container">
-            <button id="choiceOne" class="ui-close-btn">Dator</button>
-            <button id="choiceTwo" class="ui-close-btn">Mobil</button>
-            <button id="choiceThree" class="ui-close-btn">Konsol</button>
+        <div id="ahri-textbox" class="textboxCommon ahritextbox">
+          <p id="ahri-dialogue" class="ui-text" style="align-self: flex-start;"></p>
+          <div id="choice-input-container" style="margin: 4% 0% 2% 0%;">
+            <button id="pokemonGo" class="uiCommonBtn ui-choice-btn">Pokemon Go</button>
+            <button id="wobble" class="uiCommonBtn ui-choice-btn">Wobble skål</button>
+            <button id="swimming" class="uiCommonBtn ui-choice-btn">Bada</button>
           </div>
-          <div id="ahri-btn-container">
+          <div id="ahri-btn-container" style="align-self: flex-end;">
             <button id="ahri-close" class="uiCommonBtn ui-close-btn">Close</button>
           </div>
         </div>
@@ -189,7 +203,7 @@
           <input type="text" maxlength="1" id="input-4" class="input" required placeholder="D"/>
           </div>
           <div id="submit-btn-container">
-            <button id="check-key" class="ui-check-btn">Check key</button>
+            <button id="check-key" class="uiCommonBtn ui-check-btn">Check key</button>
           </div>
           </div>
           <p id="chiffer-dialogue" class="ui-text" style="margin-top: 1%;"></p>
@@ -214,7 +228,7 @@
       </div>
       <canvas id="game"></canvas>
     </div>
-    <script type="module" src="src/world.js"></script>
+    <script type="module" src="./src/scenes/world.js"></script>
     <!-- <script type="module" src="src/scenes/puzzle.js"></script> -->
   </body>
 </html>

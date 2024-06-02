@@ -1,26 +1,10 @@
-import {
-  dialogueData,
-  scaleFactor,
-  scaleFactor2,
-  background,
-} from "../constants";
+import { scaleFactor, background } from "../constants";
 import { kaBoom } from "../kaboomCtx";
-import {
-  displayDialogue,
-  displayFirstDialogue,
-  displayAhriDialogue,
-  displayChifferDialogue,
-  setCamScale,
-} from "../utils";
+import { setCamScale } from "../utils";
 import ChangeScene from "./world";
 import createPlayer, { setPlayerMovement } from "../entities/player.js";
 import createAhri from "../entities/ahri.js";
 import createEkko from "../entities/ekko.js";
-import {
-  previousScene,
-  setPreviousScene,
-  getPreviousScene,
-} from "../stateManager/globalStateManager.js";
 import { drawBoundaries } from "../utils/boundaries.js";
 
 export default function apartmentScene() {

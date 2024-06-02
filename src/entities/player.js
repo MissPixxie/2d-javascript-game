@@ -1,6 +1,5 @@
-import { dialogueData, scaleFactor } from "../constants";
+import { scaleFactor } from "../constants";
 import { kaBoom } from "../kaboomCtx";
-import { displayDialogue, setCamScale } from "../utils";
 
 kaBoom.loadSprite("spritesheet", "../spritesheet.png", {
   sliceX: 39,

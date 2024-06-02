@@ -1,6 +1,6 @@
-import { dialogueData, scaleFactor, background } from "../constants";
+import { background } from "../constants";
 import { kaBoom } from "../kaboomCtx";
-import { displayDialogue, setCamScale, displayFirstDialogue } from "../utils";
+
 //import ChangeScene from "../world";
 
 export default function firstScene() {

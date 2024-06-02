@@ -1,6 +1,4 @@
-import { dialogueData, scaleFactor } from "../constants";
 import { kaBoom } from "../kaboomCtx.js";
-import { displayDialogue, setCamScale } from "../utils";
 import main from "./apartmentScene";
 import firstScene from "./firstScene";
 import puzzleScene from "./puzzle";

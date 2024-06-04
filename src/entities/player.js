@@ -1,5 +1,6 @@
 import { scaleFactor } from "../constants";
-import { playAnimIfNotPlaying } from "../utils";
+import { gameState } from "../stateManager/stateManager";
+import { playAnimIfNotPlaying, keysPressed } from "../utils";
 import interactions from "../utils/interactions";
 
 export default function createPlayer(kaBoom, pos) {
@@ -9,7 +10,6 @@ export default function createPlayer(kaBoom, pos) {
     kaBoom.body(),
     kaBoom.pos(pos),
     kaBoom.anchor("center"),
-    // kaBoom.scale(scaleFactor),
     {
       speed: 70,
       direction: "down",
@@ -21,27 +21,28 @@ export default function createPlayer(kaBoom, pos) {
 
 export function setPlayerMovement(kaBoom, player) {
   kaBoom.onKeyDown((key) => {
-    if (["left", "a"].includes(key)) {
+    if (gameState.getFreezePlayer()) return;
+    if (["left"].includes(key) && !keysPressed(kaBoom, ["up", "down"])) {
       player.flipX = true;
       playAnimIfNotPlaying(player, "walk-side");
       player.move(-player.speed, 0);
       player.direction = "left";
       return;
     }
-    if (["right", "d"].includes(key)) {
+    if (["right"].includes(key) && !keysPressed(kaBoom, ["up", "down"])) {
       player.flipX = false;
       playAnimIfNotPlaying(player, "walk-side");
       player.move(player.speed, 0);
       player.direction = "right";
       return;
     }
-    if (["up", "w"].includes(key)) {
+    if (["up"].includes(key)) {
       playAnimIfNotPlaying(player, "walk-up");
       player.move(0, -player.speed);
       player.direction = "up";
       return;
     }
-    if (["down", "s"].includes(key)) {
+    if (["down"].includes(key)) {
       playAnimIfNotPlaying(player, "walk-down");
       player.move(0, player.speed);
       player.direction = "down";

@@ -1,5 +1,8 @@
 import { kaBoom } from "./src/kaboomCtx.js";
-import world from "./src/scenes/world.js";
+import apartmentScene from "./src/scenes/apartmentScene.js";
+import firstScene from "./src/scenes/firstScene.js";
+import puzzleScene from "./src/scenes/puzzle.js";
+//import world from "./src/scenes/world.js";
 
 kaBoom.loadSprite("spritesheet", "../spritesheet.png", {
   sliceX: 39,
@@ -26,11 +29,13 @@ kaBoom.loadSprite("ahri", "../ahri.png", {
 });
 
 const scenes = {
-  world,
+  firstScene,
+  apartmentScene,
+  puzzleScene,
 };
 
 for (const sceneName in scenes) {
   kaBoom.scene(sceneName, () => scenes[sceneName](kaBoom));
 }
 
-kaBoom.go("world");
+kaBoom.go("apartmentScene");

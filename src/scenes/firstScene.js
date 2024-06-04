@@ -1,10 +1,10 @@
 import { background } from "../constants";
-import { kaBoom } from "../kaboomCtx";
 import { setPreviousScene } from "../stateManager/globalStateManager";
 import ChangeScene from "./world";
+import { colorizeBackground } from "../utils";
 
-export default function firstScene() {
-  kaBoom.setBackground(kaBoom.Color.fromHex(background));
+export default function firstScene(kaBoom) {
+  colorizeBackground(kaBoom, 76, 170, 255);
 
   const greetingContainer = document.getElementById("first-textbox-container");
   const dialogue = document.getElementById("first-dialogue");

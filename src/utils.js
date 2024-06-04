@@ -2,6 +2,13 @@ export function playAnimIfNotPlaying(gameObj, animName) {
   if (gameObj.curAnim() !== animName) gameObj.play(animName);
 }
 
+export function keysPressed(kaBoom, keys) {
+  for (const key of keys) {
+    if (kaBoom.isKeyDown(key)) return true;
+  }
+  return false;
+}
+
 export function colorizeBackground(kaBoom, r, g, b) {
   kaBoom.add([
     kaBoom.rect(kaBoom.width, kaBoom.height),

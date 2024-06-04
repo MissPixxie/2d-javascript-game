@@ -1,19 +1,4 @@
-import { kaBoom } from "../kaboomCtx";
-
-export function drawBoundaries(map, layers) {
-  for (const boundary of layers.objects) {
-    map.add(
-      generateColliders(
-        boundary.width,
-        boundary.height,
-        kaBoom.vec2(boundary.x, boundary.y),
-        boundary.name
-      )
-    );
-  }
-}
-
-export function generateColliders(width, height, pos, tag, map, layers) {
+export function generateColliders(kaBoom, width, height, pos, tag) {
   return [
     kaBoom.area({ shape: new kaBoom.Rect(kaBoom.vec2(0), width, height) }),
     kaBoom.pos(pos),
@@ -21,4 +6,18 @@ export function generateColliders(width, height, pos, tag, map, layers) {
     kaBoom.offscreen(),
     tag,
   ];
+}
+
+export function drawBoundaries(kaBoom, map, layers) {
+  for (const boundary of layers.objects) {
+    map.add(
+      generateColliders(
+        kaBoom,
+        boundary.width,
+        boundary.height,
+        kaBoom.vec2(boundary.x, boundary.y),
+        boundary.name
+      )
+    );
+  }
 }

@@ -5,6 +5,7 @@ export default function createBalloon(kaBoom, pos) {
     kaBoom.pos(pos),
     kaBoom.body({ isStatic: true }),
     kaBoom.anchor("top"),
+    kaBoom.scale(0.8),
     "balloon",
   ];
 }

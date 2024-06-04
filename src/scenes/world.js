@@ -10,6 +10,13 @@ import createAhri from "../entities/ahri.js";
 import createEkko from "../entities/ekko.js";
 import createBalloon from "../entities/balloon.js";
 import { setPlayerMovement } from "../entities/player.js";
+import { dialogueData } from "../utils/dialogueData.js";
+import { drawBoundaries } from "../utils/boundaries.js";
+import {
+  displayAhriDialogue,
+  displayChifferDialogue,
+  displayDialogue,
+} from "../utils/dialogueLogic.js";
 
 import {
   previousScene,
@@ -18,15 +25,15 @@ import {
 } from "../stateManager/globalStateManager.js";
 import { colorizeBackground } from "../utils.js";
 
-kaBoom.scene("apartmentScene", apartmentScene);
-kaBoom.scene("firstScene", firstScene);
-kaBoom.scene("puzzleScene", puzzleScene);
+// kaBoom.scene("apartmentScene", apartmentScene);
+// kaBoom.scene("firstScene", firstScene);
+// kaBoom.scene("puzzleScene", puzzleScene);
 
-export function ChangeScene(nameOfScene) {
-  kaBoom.go(nameOfScene);
-}
+// export function ChangeScene(nameOfScene) {
+//   kaBoom.go(nameOfScene);
+// }
 
-ChangeScene("apartmentScene");
+// ChangeScene("apartmentScene");
 
 export default async function world(kaBoom) {
   colorizeBackground(kaBoom, 76, 170, 255);
@@ -53,7 +60,7 @@ export default async function world(kaBoom) {
   // BOUNDARIES //
   for (const layer of layers) {
     if (layer.name === "boundaries") {
-      //drawBoundaries(map, layer, player);
+      drawBoundaries(kaBoom, map, layer);
       continue;
     }
     if (layer.name === "spawnpoint") {
@@ -107,58 +114,56 @@ export default async function world(kaBoom) {
     );
   });
 
+  entities.player.onCollide("ahri", () => {
+    entities.player.isInDialogue = true;
+    if (entities.ahri.curAnim() != "awake") {
+      entities.ahri.play("awake");
+      entities.ahri.status = "awake";
+    }
+    displayAhriDialogue(dialogueData["ahri"], () => {
+      entities.player.isInDialogue = false;
+      entities.ahri.play("idle");
+      entities.ahri.status = "idle";
+    });
+  });
+
+  entities.player.onCollide("ekko", () => {
+    entities.player.isInDialogue = true;
+    displayDialogue(dialogueData["ekko"], () => {
+      entities.player.isInDialogue = false;
+    });
+  });
+
+  entities.player.onCollide("chiffer", () => {
+    entities.player.isInDialogue = true;
+    displayChifferDialogue(dialogueData["chiffer"], () => {
+      entities.player.isInDialogue = false;
+    });
+  });
+
+  entities.player.onCollide("computer", () => {
+    entities.player.isInDialogue = true;
+    displayDialogue(dialogueData["computer"], () => {
+      entities.player.isInDialogue = false;
+    });
+  });
+
+  entities.player.onCollide("tv", () => {
+    entities.player.isInDialogue = true;
+    displayDialogue(dialogueData["tv"], () => {
+      entities.player.isInDialogue = false;
+    });
+  });
+
+  entities.player.onCollide("puzzle", () => {
+    kaBoom.go("puzzleScene");
+  });
+
   setPlayerMovement(kaBoom, entities.player);
-}
 
-setCamScale(kaBoom);
-
-kaBoom.onResize(() => {
   setCamScale(kaBoom);
-});
 
-// setInteraction(player, layers);
-
-// player.onCollide("ahri", () => {
-//   player.isInDialogue = true;
-//   if (ahri.curAnim() != "awake") {
-//     ahri.play("awake");
-//     ahri.status = "awake";
-//   }
-//   displayAhriDialogue(dialogueData["ahri"], () => {
-//     player.isInDialogue = false;
-//     ahri.play("idle");
-//     ahri.status = "idle";
-//   });
-// });
-
-// player.onCollide("ekko", () => {
-//   player.isInDialogue = true;
-//   displayDialogue(dialogueData["ekko"], () => {
-//     player.isInDialogue = false;
-//   });
-// });
-
-// player.onCollide("chiffer", () => {
-//   player.isInDialogue = true;
-//   displayChifferDialogue(dialogueData["chiffer"], () => {
-//     player.isInDialogue = false;
-//   });
-// });
-
-// player.onCollide("computer", () => {
-//   player.isInDialogue = true;
-//   displayDialogue(dialogueData["computer"], () => {
-//     player.isInDialogue = false;
-//   });
-// });
-
-// player.onCollide("tv", () => {
-//   player.isInDialogue = true;
-//   displayDialogue(dialogueData["tv"], () => {
-//     player.isInDialogue = false;
-//   });
-// });
-
-// player.onCollide("puzzle", () => {
-//   ChangeScene("puzzleScene");
-// });
+  kaBoom.onResize(() => {
+    setCamScale(kaBoom);
+  });
+}

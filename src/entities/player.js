@@ -1,29 +1,17 @@
 import { scaleFactor } from "../constants";
-import { kaBoom } from "../kaboomCtx";
+import { playAnimIfNotPlaying } from "../utils";
+import interactions from "../utils/interactions";
 
-kaBoom.loadSprite("spritesheet", "../spritesheet.png", {
-  sliceX: 39,
-  sliceY: 31,
-  anims: {
-    "idle-down": 956,
-    "walk-down": { from: 959, to: 957, loop: true, speed: 8 },
-    "idle-side": 995,
-    "walk-side": { from: 996, to: 998, loop: true, speed: 8 },
-    "idle-up": 1034,
-    "walk-up": { from: 1035, to: 1037, loop: true, speed: 8 },
-  },
-});
-
-export default function createPlayer(pos) {
+export default function createPlayer(kaBoom, pos) {
   return [
     kaBoom.sprite("spritesheet", { anim: "idle-down" }),
     kaBoom.area({ shape: new kaBoom.Rect(kaBoom.vec2(3, 4), 10, 12) }),
     kaBoom.body(),
     kaBoom.pos(pos),
     kaBoom.anchor("center"),
-    kaBoom.scale(scaleFactor),
+    // kaBoom.scale(scaleFactor),
     {
-      speed: 250,
+      speed: 70,
       direction: "down",
       isInDialogue: false,
     },
@@ -31,63 +19,137 @@ export default function createPlayer(pos) {
   ];
 }
 
-export function setPlayerMovement(player) {
-  kaBoom.onMouseDown((mouseBtn) => {
-    if (mouseBtn !== "left" || player.isInDialogue) return;
-
-    const worldMousePos = kaBoom.toWorld(kaBoom.mousePos());
-    player.moveTo(worldMousePos, player.speed);
-
-    const mouseAngle = player.pos.angle(worldMousePos);
-
-    const lowerBound = 50;
-    const upperBound = 125;
-
-    if (
-      mouseAngle > lowerBound &&
-      mouseAngle < upperBound &&
-      player.curAnim() != "walk-up"
-    ) {
-      player.play("walk-up");
-      player.direction = "up";
-      return;
-    }
-
-    if (
-      mouseAngle < -lowerBound &&
-      mouseAngle > -upperBound &&
-      player.curAnim() != "walk-down"
-    ) {
-      player.play("walk-down");
-      player.direction = "down";
-      return;
-    }
-
-    if (Math.abs(mouseAngle) > upperBound) {
-      player.flipX = false;
-      if (player.curAnim() != "walk-side") player.play("walk-side");
-      player.direction = "right";
-      return;
-    }
-
-    if (Math.abs(mouseAngle) < lowerBound) {
+export function setPlayerMovement(kaBoom, player) {
+  kaBoom.onKeyDown((key) => {
+    if (["left", "a"].includes(key)) {
       player.flipX = true;
-      if (player.curAnim() != "walk-side") player.play("walk-side");
+      playAnimIfNotPlaying(player, "walk-side");
+      player.move(-player.speed, 0);
       player.direction = "left";
       return;
     }
-  });
-
-  kaBoom.onMouseRelease(() => {
-    if (player.direction === "down") {
-      player.play("idle-down");
+    if (["right", "d"].includes(key)) {
+      player.flipX = false;
+      playAnimIfNotPlaying(player, "walk-side");
+      player.move(player.speed, 0);
+      player.direction = "right";
       return;
     }
-    if (player.direction === "up") {
-      player.play("idle-up");
+    if (["up", "w"].includes(key)) {
+      playAnimIfNotPlaying(player, "walk-up");
+      player.move(0, -player.speed);
+      player.direction = "up";
       return;
     }
-
-    player.play("idle-side");
+    if (["down", "s"].includes(key)) {
+      playAnimIfNotPlaying(player, "walk-down");
+      player.move(0, player.speed);
+      player.direction = "down";
+      return;
+    }
   });
+
+  kaBoom.onKeyRelease(() => {
+    player.stop();
+  });
+
+  // kaBoom.onMouseDown((mouseBtn) => {
+  //   if (mouseBtn !== "left" || player.isInDialogue) return;
+
+  //   const worldMousePos = kaBoom.toWorld(kaBoom.mousePos());
+  //   player.moveTo(worldMousePos, player.speed);
+
+  //   const mouseAngle = player.pos.angle(worldMousePos);
+
+  //   const lowerBound = 50;
+  //   const upperBound = 125;
+
+  //   if (
+  //     mouseAngle > lowerBound &&
+  //     mouseAngle < upperBound &&
+  //     player.curAnim() != "walk-up"
+  //   ) {
+  //     player.play("walk-up");
+  //     player.direction = "up";
+  //     return;
+  //   }
+
+  //   if (
+  //     mouseAngle < -lowerBound &&
+  //     mouseAngle > -upperBound &&
+  //     player.curAnim() != "walk-down"
+  //   ) {
+  //     player.play("walk-down");
+  //     player.direction = "down";
+  //     return;
+  //   }
+
+  //   if (Math.abs(mouseAngle) > upperBound) {
+  //     player.flipX = false;
+  //     if (player.curAnim() != "walk-side") player.play("walk-side");
+  //     player.direction = "right";
+  //     return;
+  //   }
+
+  //   if (Math.abs(mouseAngle) < lowerBound) {
+  //     player.flipX = true;
+  //     if (player.curAnim() != "walk-side") player.play("walk-side");
+  //     player.direction = "left";
+  //     return;
+  //   }
+  // });
+
+  // kaBoom.onMouseRelease(() => {
+  //   if (player.direction === "down") {
+  //     player.play("idle-down");
+  //     return;
+  //   }
+  //   if (player.direction === "up") {
+  //     player.play("idle-up");
+  //     return;
+  //   }
+
+  //   player.play("idle-side");
+  // });
 }
+// export function setInteraction(player, layers) {
+//   console.log(player);
+//   for (let layer of layers) {
+//     if (layer.name === "dialog") {
+//       for (let dialogues of layer.objects) {
+//         console.log(dialogues.name);
+//         player.onCollide(dialogues.name, () => {
+//           //player.isInDialogue = true;
+//           if (dialogues.name === "ahri") {
+//             let ahri = dialogues.name;
+//             if (ahri.curAnim() != "awake") {
+//               ahri.play("awake");
+//               ahri.status = "awake";
+//             }
+//             displayAhriDialogue(dialogueData[dialogues.name], () => {
+//               player.isInDialogue = false;
+//               ahri.play("idle");
+//               ahri.status = "idle";
+//             });
+//             console.log("ahri");
+//           }
+//         });
+//       }
+//       continue;
+//     }
+//   }
+
+// player.onCollide("ahri", () => {
+//   player.isInDialogue = true;
+//   if (ahri.curAnim() != "awake") {
+//     ahri.play("awake");
+//     ahri.status = "awake";
+//   }
+//   displayAhriDialogue(dialogueData["ahri"], () => {
+//     player.isInDialogue = false;
+//     ahri.play("idle");
+//     ahri.status = "idle";
+//   });
+//   console.log("ahri");
+// });
+//}

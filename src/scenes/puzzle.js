@@ -9,11 +9,13 @@ import ChangeScene from "./world.js";
 
 export default function puzzleScene() {
   kaBoom.setBackground(kaBoom.Color.fromHex(background));
-  const backBtn = document.getElementById("backBtn");
   const puzzleContainer = document.getElementById("puzzleContainer");
+  const boardContainer = document.getElementById("boardContainer");
 
   kaBoom.scene("puzzleScene", async () => {
-    puzzleContainer.style.display = "block";
+    console.log("i get called");
+    const backBtn = document.getElementById("backBtn");
+    //puzzleContainer.style.display = "block";
     puzzleContainer.style.backgroundColor = "#202121";
     puzzleContainer.style.display = "flex";
     puzzleContainer.style.flexWrap = "wrap";
@@ -26,14 +28,6 @@ export default function puzzleScene() {
     puzzleBoard.style.height = "700px";
     puzzleBoard.style.display = "flex";
     puzzleBoard.style.flexWrap = "wrap";
-
-    function backToMain() {
-      puzzleContainer.style.display = "none";
-      setPreviousScene("puzzleScene");
-      console.log(getPreviousScene());
-      ChangeScene("apartmentScene");
-    }
-    backBtn.addEventListener("click", backToMain);
 
     var columns = 4;
     var rows = 3;
@@ -105,6 +99,16 @@ export default function puzzleScene() {
       puzzleImages[i].style.height = "228px";
       puzzleImages[i].style.border = "3px solid #202121";
     }
+
+    function backToMain() {
+      puzzleContainer.style.display = "none";
+      // puzzleBoard.style.display = "none";
+      // boardContainer.style.display = "none";
+      // console.log(getPreviousScene());
+      // setPreviousScene("puzzleScene");
+      ChangeScene("apartmentScene");
+    }
+    backBtn.addEventListener("click", backToMain);
 
     // const shuffleButton = document.getElementById("shuffleBtn");
     // function shuffleImages() {
@@ -249,6 +253,5 @@ export default function puzzleScene() {
 
   // funktion tar bort bitarna
   function clearPieces(tile) {}
-
   kaBoom.go("puzzleScene");
 }

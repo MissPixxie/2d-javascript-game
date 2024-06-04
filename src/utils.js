@@ -1,3 +1,15 @@
+export function playAnimIfNotPlaying(gameObj, animName) {
+  if (gameObj.curAnim() !== animName) gameObj.play(animName);
+}
+
+export function colorizeBackground(kaBoom, r, g, b) {
+  kaBoom.add([
+    kaBoom.rect(kaBoom.width, kaBoom.height),
+    kaBoom.color(r, g, b),
+    kaBoom.fixed(),
+  ]);
+}
+
 // CAMERA //
 export function setCamScale(k) {
   const resizeFactor = k.width() / k.height();

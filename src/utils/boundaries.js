@@ -1,5 +1,4 @@
 import { kaBoom } from "../kaboomCtx";
-import { generateColliders } from "./colliders";
 
 export function drawBoundaries(map, layers) {
   for (const boundary of layers.objects) {
@@ -12,4 +11,14 @@ export function drawBoundaries(map, layers) {
       )
     );
   }
+}
+
+export function generateColliders(width, height, pos, tag, map, layers) {
+  return [
+    kaBoom.area({ shape: new kaBoom.Rect(kaBoom.vec2(0), width, height) }),
+    kaBoom.pos(pos),
+    kaBoom.body({ isStatic: true }),
+    kaBoom.offscreen(),
+    tag,
+  ];
 }

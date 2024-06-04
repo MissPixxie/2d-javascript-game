@@ -1,7 +1,7 @@
 import { background } from "../constants";
 import { kaBoom } from "../kaboomCtx";
-
-//import ChangeScene from "../world";
+import { setPreviousScene } from "../stateManager/globalStateManager";
+import ChangeScene from "./world";
 
 export default function firstScene() {
   kaBoom.setBackground(kaBoom.Color.fromHex(background));
@@ -44,14 +44,10 @@ export default function firstScene() {
     const startBtn = document.getElementById("start");
     function startGame() {
       greetingContainer.style.display = "none";
-      ChangeScene("main");
+      //setPreviousScene("apartmentScene");
+      ChangeScene("apartmentScene");
     }
     startBtn.addEventListener("click", startGame);
-    //greetingContainer.append(currentText);
-    // const greeting = setTimeout(myGreeting, 300);
-    // function myGreeting() {
-    //   displayFirstDialogue(dialogueData.secondPrompt, () => ({}));
-    // }
   });
 
   kaBoom.go("firstScene");

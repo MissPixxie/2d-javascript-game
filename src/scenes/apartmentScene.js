@@ -5,7 +5,19 @@ import ChangeScene from "./world";
 import createPlayer, { setPlayerMovement } from "../entities/player.js";
 import createAhri from "../entities/ahri.js";
 import createEkko from "../entities/ekko.js";
-import { drawBoundaries } from "../utils/boundaries.js";
+import { drawBoundaries, generateColliders } from "../utils/boundaries.js";
+//import interactions from "../utils/interactions.js";
+import {
+  displayAhriDialogue,
+  displayChifferDialogue,
+  displayDialogue,
+} from "../utils/dialogueLogic.js";
+import { dialogueData } from "../utils/dialogueData.js";
+import {
+  getPreviousScene,
+  previousScene,
+  setPreviousScene,
+} from "../stateManager/globalStateManager.js";
 
 export default function apartmentScene() {
   kaBoom.loadSprite("spritesheet", "../spritesheet.png", {
@@ -63,39 +75,25 @@ export default function apartmentScene() {
     // BOUNDARIES //
     for (const layer of layers) {
       if (layer.name === "boundaries") {
-        drawBoundaries(map, layer);
-        // if (boundary.type === "hasDialogue") {
-        //   player.onCollide(boundary.name, () => {
-        //     player.isInDialogue = true;
-        //     if (boundary.name === "chiffer") {
-        //       displayChifferDialogue(dialogueData[boundary.name], () => {
-        //         player.isInDialogue = false;
-        //       });
-        //     } else if (boundary.name === "puzzle") {
-        //       //ChangeScene("puzzleScene");
-        //     } else if (boundary.name === "ahri") {
-        //       if (ahri.curAnim() != "awake") {
-        //         ahri.play("awake");
-        //         ahri.status = "awake";
-        //       }
-        //       displayAhriDialogue(dialogueData[boundary.name], () => {
-        //         player.isInDialogue = false;
-        //         ahri.play("idle");
-        //         ahri.status = "idle";
-        //       });
-        //     } else {
-        //       displayDialogue(dialogueData[boundary.name], () => {
-        //         player.isInDialogue = false;
-        //       });
-        //     }
-        //   });
-        // }
-
+        drawBoundaries(map, layer, player);
         continue;
       }
-
       if (layer.name === "spawnpoint") {
         for (const entity of layer.objects) {
+          // if (
+          //   entity.name === "playerPuzzle" &&
+          //   previousScene === "puzzleScene"
+          // ) {
+          //   player = kaBoom.add(
+          //     createPlayer(
+          //       kaBoom.vec2(
+          //         (map.pos.x + entity.x) * scaleFactor,
+          //         (map.pos.y + entity.y) * scaleFactor
+          //       )
+          //     )
+          //   );
+          //   continue;
+          // }
           if (entity.name === "player") {
             player = kaBoom.add(
               createPlayer(
@@ -105,22 +103,8 @@ export default function apartmentScene() {
                 )
               )
             );
-            // player.pos = kaBoom.vec2(
-            //   (map.pos.x + entity.x) * scaleFactor,
-            //   (map.pos.y + entity.y) * scaleFactor
-            // );
-            // kaBoom.add(player);
             continue;
           }
-          // if (entity.name === "playerPuzzle") {
-          //   player.pos = kaBoom.vec2(
-          //     (map.pos.x + entity.x) * scaleFactor,
-          //     (map.pos.y + entity.y) * scaleFactor
-          //   );
-          //   kaBoom.add(player);
-          //   continue;
-          // }
-
           if (entity.name === "balloon") {
             balloon.pos = kaBoom.vec2(
               (map.pos.x + entity.x) * scaleFactor,
@@ -166,6 +150,52 @@ export default function apartmentScene() {
     });
 
     setPlayerMovement(player);
+    //setInteraction(player, layers);
+
+    player.onCollide("ahri", () => {
+      player.isInDialogue = true;
+      if (ahri.curAnim() != "awake") {
+        ahri.play("awake");
+        ahri.status = "awake";
+      }
+      displayAhriDialogue(dialogueData["ahri"], () => {
+        player.isInDialogue = false;
+        ahri.play("idle");
+        ahri.status = "idle";
+      });
+    });
+
+    player.onCollide("ekko", () => {
+      player.isInDialogue = true;
+      displayDialogue(dialogueData["ekko"], () => {
+        player.isInDialogue = false;
+      });
+    });
+
+    player.onCollide("chiffer", () => {
+      player.isInDialogue = true;
+      displayChifferDialogue(dialogueData["chiffer"], () => {
+        player.isInDialogue = false;
+      });
+    });
+
+    player.onCollide("computer", () => {
+      player.isInDialogue = true;
+      displayDialogue(dialogueData["computer"], () => {
+        player.isInDialogue = false;
+      });
+    });
+
+    player.onCollide("tv", () => {
+      player.isInDialogue = true;
+      displayDialogue(dialogueData["tv"], () => {
+        player.isInDialogue = false;
+      });
+    });
+
+    player.onCollide("puzzle", () => {
+      ChangeScene("puzzleScene");
+    });
   });
 
   kaBoom.go("apartmentScene");

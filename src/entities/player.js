@@ -1,7 +1,5 @@
-import { scaleFactor } from "../constants";
 import { gameState } from "../stateManager/stateManager";
 import { playAnimIfNotPlaying, keysPressed } from "../utils";
-import interactions from "../utils/interactions";
 
 export default function createPlayer(kaBoom, pos) {
   return [
@@ -50,6 +48,11 @@ export function setPlayerMovement(kaBoom, player) {
     }
   });
 
+  console.log(player.isInDialogue);
+
+  // if (kaBoom.onKeyRelease(() => {}) || player.isInDialogue) {
+  //   player.stop();
+  // }
   kaBoom.onKeyRelease(() => {
     player.stop();
   });
@@ -113,44 +116,3 @@ export function setPlayerMovement(kaBoom, player) {
   //   player.play("idle-side");
   // });
 }
-// export function setInteraction(player, layers) {
-//   console.log(player);
-//   for (let layer of layers) {
-//     if (layer.name === "dialog") {
-//       for (let dialogues of layer.objects) {
-//         console.log(dialogues.name);
-//         player.onCollide(dialogues.name, () => {
-//           //player.isInDialogue = true;
-//           if (dialogues.name === "ahri") {
-//             let ahri = dialogues.name;
-//             if (ahri.curAnim() != "awake") {
-//               ahri.play("awake");
-//               ahri.status = "awake";
-//             }
-//             displayAhriDialogue(dialogueData[dialogues.name], () => {
-//               player.isInDialogue = false;
-//               ahri.play("idle");
-//               ahri.status = "idle";
-//             });
-//             console.log("ahri");
-//           }
-//         });
-//       }
-//       continue;
-//     }
-//   }
-
-// player.onCollide("ahri", () => {
-//   player.isInDialogue = true;
-//   if (ahri.curAnim() != "awake") {
-//     ahri.play("awake");
-//     ahri.status = "awake";
-//   }
-//   displayAhriDialogue(dialogueData["ahri"], () => {
-//     player.isInDialogue = false;
-//     ahri.play("idle");
-//     ahri.status = "idle";
-//   });
-//   console.log("ahri");
-// });
-//}

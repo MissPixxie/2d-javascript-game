@@ -1,13 +1,8 @@
-import { background } from "../constants";
-import {
-  previousScene,
-  setPreviousScene,
-  getPreviousScene,
-} from "../stateManager/globalStateManager.js";
-import ChangeScene from "./world.js";
+import { gameState } from "../stateManager/stateManager.js";
 import { colorizeBackground } from "../utils.js";
 
 export default async function puzzleScene(kaBoom) {
+  gameState.setPreviousScene("puzzleScene");
   colorizeBackground(kaBoom, 76, 170, 255);
 
   const puzzleContainer = document.getElementById("puzzleContainer");
@@ -101,13 +96,10 @@ export default async function puzzleScene(kaBoom) {
 
   function backToMain() {
     puzzleContainer.style.display = "none";
-    // puzzleBoard.style.display = "none";
-    // boardContainer.style.display = "none";
-    // console.log(getPreviousScene());
-    // setPreviousScene("puzzleScene");
-    //ChangeScene("apartmentScene");
+    gameState.setPreviousScene("puzzleScene");
     kaBoom.go("apartmentScene");
   }
+
   backBtn.addEventListener("click", backToMain);
 
   // const shuffleButton = document.getElementById("shuffleBtn");

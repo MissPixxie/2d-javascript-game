@@ -1,6 +1,3 @@
-import { background } from "../constants";
-import { setPreviousScene } from "../stateManager/globalStateManager";
-import ChangeScene from "./world";
 import { colorizeBackground } from "../utils";
 
 export default function firstScene(kaBoom) {
@@ -40,15 +37,7 @@ export default function firstScene(kaBoom) {
   }
   typeWriter();
 
-  kaBoom.scene("firstScene", async () => {
-    const startBtn = document.getElementById("start");
-    function startGame() {
-      greetingContainer.style.display = "none";
-      //setPreviousScene("apartmentScene");
-      ChangeScene("apartmentScene");
-    }
-    startBtn.addEventListener("click", startGame);
-  });
+  startBtn.addEventListener("click", startGame);
 
   kaBoom.go("firstScene");
 }

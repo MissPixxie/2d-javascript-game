@@ -1,5 +1,3 @@
-import { scaleFactor } from "../constants";
-
 export default function createAhri(kaBoom, pos) {
   return [
     kaBoom.sprite("ahri", { anim: "idle" }),

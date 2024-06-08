@@ -2,7 +2,7 @@ import { kaBoom } from "./src/kaboomCtx.js";
 import apartmentScene from "./src/scenes/apartmentScene.js";
 import firstScene from "./src/scenes/firstScene.js";
 import puzzleScene from "./src/scenes/puzzle.js";
-//import world from "./src/scenes/world.js";
+import { background } from "./src/constants.js";
 
 kaBoom.loadSprite("spritesheet", "../spritesheet.png", {
   sliceX: 39,
@@ -35,6 +35,7 @@ const scenes = {
 };
 
 for (const sceneName in scenes) {
+  kaBoom.setBackground(kaBoom.Color.fromHex(background));
   kaBoom.scene(sceneName, () => scenes[sceneName](kaBoom));
 }
 

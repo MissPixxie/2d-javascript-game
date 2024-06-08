@@ -1,7 +1,3 @@
-import firstScene from "./firstScene";
-import puzzleScene from "./puzzle";
-import { background } from "../constants.js";
-import { setCamScale } from "../utils.js";
 import { scaleFactor } from "../constants.js";
 import createPlayer from "../entities/player.js";
 import createAhri from "../entities/ahri.js";
@@ -16,14 +12,12 @@ import {
   displayDialogue,
 } from "../utils/dialogueLogic.js";
 
-import {
-  previousScene,
-  setPreviousScene,
-  getPreviousScene,
-} from "../stateManager/globalStateManager.js";
 import { colorizeBackground } from "../utils.js";
+import { gameState } from "../stateManager/stateManager.js";
 
 export default async function apartmentScene(kaBoom) {
+  const previousScene = gameState.getPreviousScene();
+  console.log("apartmentSCene");
   colorizeBackground(kaBoom, 76, 170, 255);
 
   kaBoom.loadSprite("map", "../map2.png");
@@ -59,7 +53,7 @@ export default async function apartmentScene(kaBoom) {
           );
           continue;
         }
-        if (entity.name === "player") {
+        if (entity.name === "player" && previousScene !== "puzzleScene") {
           entities.player = map.add(
             createPlayer(kaBoom, kaBoom.vec2(entity.x, entity.y))
           );
@@ -103,55 +97,53 @@ export default async function apartmentScene(kaBoom) {
   });
 
   entities.player.onCollide("ahri", () => {
-    entities.player.isInDialogue = true;
     if (entities.ahri.curAnim() != "awake") {
       entities.ahri.play("awake");
       entities.ahri.status = "awake";
     }
     displayAhriDialogue(dialogueData["ahri"], () => {
-      entities.player.isInDialogue = false;
+      gameState.setFreezePlayer(false);
       entities.ahri.play("idle");
       entities.ahri.status = "idle";
     });
   });
 
   entities.player.onCollide("ekko", () => {
-    entities.player.isInDialogue = true;
     displayDialogue(dialogueData["ekko"], () => {
-      entities.player.isInDialogue = false;
+      gameState.setFreezePlayer(false);
     });
   });
 
   entities.player.onCollide("chiffer", () => {
-    entities.player.isInDialogue = true;
     displayChifferDialogue(dialogueData["chiffer"], () => {
-      entities.player.isInDialogue = false;
+      gameState.setFreezePlayer(false);
     });
   });
 
   entities.player.onCollide("computer", () => {
-    entities.player.isInDialogue = true;
     displayDialogue(dialogueData["computer"], () => {
-      entities.player.isInDialogue = false;
+      gameState.setFreezePlayer(false);
     });
   });
 
   entities.player.onCollide("tv", () => {
-    entities.player.isInDialogue = true;
     displayDialogue(dialogueData["tv"], () => {
-      entities.player.isInDialogue = false;
+      gameState.setFreezePlayer(false);
     });
   });
 
   entities.player.onCollide("puzzle", () => {
-    kaBoom.go("puzzleScene");
+    if (previousScene === "puzzleScene") return;
+    else {
+      kaBoom.go("puzzleScene");
+    }
   });
 
   setPlayerMovement(kaBoom, entities.player);
 
-  setCamScale(kaBoom);
+  // setCamScale(kaBoom);
 
-  kaBoom.onResize(() => {
-    setCamScale(kaBoom);
-  });
+  // kaBoom.onResize(() => {
+  //   setCamScale(kaBoom);
+  // });
 }

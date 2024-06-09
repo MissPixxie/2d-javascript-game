@@ -80,16 +80,18 @@ body {
 }
 
 .ui-choice-btn {
-  background-color: aqua;
+  background-image: linear-gradient(white, #e6e6e6);
+  filter: drop-shadow(0 0 0.25rem rgb(151, 151, 151));
 }
 .ui-choice-btn:hover {
-  background-color: rgb(59, 104, 104);
+  background-image: linear-gradient(#e6e6e6, #c9c9c9);
 }
 
 .ui-check-btn {
   background-color: rgb(104, 151, 34);
   border-radius: 7px;
   font-size: 1.2rem;
+  margin: 0% 1% 0% 1%;
 }
 
 .ui-check-btn:hover {
@@ -178,7 +180,7 @@ body {
       <div id="ahri-textbox-container" style="display: none">
         <div id="ahri-textbox" class="textboxCommon ahritextbox">
           <p id="ahri-dialogue" class="ui-text" style="align-self: flex-start;"></p>
-          <div id="choice-input-container" style="margin: 4% 0% 2% 0%;">
+          <div id="choice-input-container" style="margin: 2% 0% 0% 0%;">
             <button id="pokemonGo" class="uiCommonBtn ui-choice-btn">Pokemon Go</button>
             <button id="wobble" class="uiCommonBtn ui-choice-btn">Wobble skål</button>
             <button id="swimming" class="uiCommonBtn ui-choice-btn">Bada</button>

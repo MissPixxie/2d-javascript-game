@@ -48,13 +48,17 @@ export function setPlayerMovement(kaBoom, player) {
     }
   });
 
-  console.log(player.isInDialogue);
-
-  // if (kaBoom.onKeyRelease(() => {}) || player.isInDialogue) {
-  //   player.stop();
-  // }
   kaBoom.onKeyRelease(() => {
     player.stop();
+    if (player.direction === "down") {
+      player.play("idle-down");
+      return;
+    }
+    if (player.direction === "up") {
+      player.play("idle-up");
+      return;
+    }
+    player.play("idle-side");
   });
 
   // kaBoom.onMouseDown((mouseBtn) => {

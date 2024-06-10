@@ -17,7 +17,7 @@ import { gameState } from "../stateManager/stateManager.js";
 
 export default async function apartmentScene(kaBoom) {
   const previousScene = gameState.getPreviousScene();
-  console.log("apartmentSCene");
+  console.log(previousScene);
   colorizeBackground(kaBoom, 76, 170, 255);
 
   kaBoom.loadSprite("map", "../map2.png");

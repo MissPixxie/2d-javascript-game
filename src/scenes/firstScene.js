@@ -6,6 +6,7 @@ export default function firstScene(kaBoom) {
   const greetingContainer = document.getElementById("first-textbox-container");
   const dialogue = document.getElementById("first-dialogue");
   const startBtnContainer = document.getElementById("first-btn-container");
+  const startBtn = document.getElementById("start");
 
   greetingContainer.style.display = "block";
   greetingContainer.style.marginTop = "7%";
@@ -37,7 +38,10 @@ export default function firstScene(kaBoom) {
   }
   typeWriter();
 
-  startBtn.addEventListener("click", startGame);
+  function startGame() {
+    greetingContainer.style.display = "none";
+    kaBoom.go("apartmentScene");
+  }
 
-  kaBoom.go("firstScene");
+  startBtn.addEventListener("click", startGame);
 }

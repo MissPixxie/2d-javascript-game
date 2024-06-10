@@ -3,6 +3,7 @@ import { colorizeBackground } from "../utils.js";
 
 export default async function puzzleScene(kaBoom) {
   gameState.setPreviousScene("puzzleScene");
+  console.log(gameState.getPreviousScene());
   colorizeBackground(kaBoom, 76, 170, 255);
 
   const puzzleContainer = document.getElementById("puzzleContainer");

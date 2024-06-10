@@ -39,4 +39,4 @@ for (const sceneName in scenes) {
   kaBoom.scene(sceneName, () => scenes[sceneName](kaBoom));
 }
 
-kaBoom.go("apartmentScene");
+kaBoom.go("firstScene");

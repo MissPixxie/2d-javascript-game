@@ -14,6 +14,9 @@ Just a birthday greeting telling him that he has to go through the game to get t
 I used a vigenere chiffer to chiffer this text, it's a riddle saying "We come from the same source but I am not your reflection, who am I?"
 ![chiffer](https://github.com/MissPixxie/2d-javascript-game/assets/78534885/e96d904a-7979-4b74-9df6-21810231f3bf)
 
+You can check it you have the right key phrase
+![chiffer2](https://github.com/MissPixxie/2d-javascript-game/assets/78534885/eb6cdfc3-45d9-45b2-8999-95409d31cdf2)
+
 ### Clues
 I left clues in the game, one appears when you walk up to the tv and it tells you about Blaise de Vigenère who came up with the chiffer.
 Second clue is the heart balloon and the painting with the bridge on the wall that we actually don't have.
@@ -25,5 +28,9 @@ When he walks up to the table he goes to the second scene which is a puzzle with
 
 ![puzzle](https://github.com/MissPixxie/2d-javascript-game/assets/78534885/4da47d43-3f2b-4c23-a012-12b74d08a0eb)
 
-![chiffer2](https://github.com/MissPixxie/2d-javascript-game/assets/78534885/eb6cdfc3-45d9-45b2-8999-95409d31cdf2)
+### Final part
+Ahri can asks you what your favourite activity is and can give you 3 different answers
+Pokemon Go = Pokemon Go is fun, we explore a lot then!
+Wobble = Wobble bowl is my favourite too!!
+Swimming = Bathing in the ocean is fun, but I'm too afraid of swimming...
 ![ahri1](https://github.com/MissPixxie/2d-javascript-game/assets/78534885/107dbe94-7abe-4a56-a83f-88e33945cf9c)

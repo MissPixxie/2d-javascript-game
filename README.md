@@ -14,7 +14,9 @@ Just a birthday greeting telling him that he has to go through the game to get t
 I used a vigenere chiffer to chiffer this text, it's a riddle saying "We come from the same source but I am not your reflection, who am I?"
 ![chiffer](https://github.com/MissPixxie/2d-javascript-game/assets/78534885/e96d904a-7979-4b74-9df6-21810231f3bf)
 
-### I left clues in the game, one appears when you walk up to the tv and it tells you about Blaise de Vigenère who came up with the chiffer
+### Clues
+I left clues in the game, one appears when you walk up to the tv and it tells you about Blaise de Vigenère who came up with the chiffer.
+Second clue is the heart balloon and the painting with the bridge on the wall that we actually don't have.
 ![clue](https://github.com/MissPixxie/2d-javascript-game/assets/78534885/d0500397-b949-4e3b-a27c-97178511ea00)
 
 ### Puzzle

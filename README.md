@@ -30,7 +30,7 @@ When he walks up to the table he goes to the second scene which is a puzzle with
 
 ### Final part
 Ahri can asks you what your favourite activity is and can give you 3 different answers
-Pokemon Go = Pokemon Go is fun, we explore a lot then!
-Wobble = Wobble bowl is my favourite too!!
-Swimming = Bathing in the ocean is fun, but I'm too afraid of swimming...
+-Pokemon Go = Pokemon Go is fun, we explore a lot then!
+-Wobble = Wobble bowl is my favourite too!!
+-Swimming = Bathing in the ocean is fun, but I'm too afraid of swimming...
 ![ahri1](https://github.com/MissPixxie/2d-javascript-game/assets/78534885/107dbe94-7abe-4a56-a83f-88e33945cf9c)

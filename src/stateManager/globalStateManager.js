@@ -4,6 +4,7 @@ export default function globalStateManager() {
   function createInstance() {
     let freezePlayer = false;
     let previousScene = "null";
+    let currentScene = "null";
     return {
       setFreezePlayer(value) {
         freezePlayer = value;
@@ -14,6 +15,12 @@ export default function globalStateManager() {
       },
       getPreviousScene: () => {
         return previousScene;
+      },
+      setCurrentScene(sceneName) {
+        currentScene = sceneName;
+      },
+      getCurrentScene: () => {
+        return currentScene;
       },
     };
   }

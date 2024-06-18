@@ -12,10 +12,10 @@ export default function firstScene(kaBoom) {
   greetingContainer.style.marginTop = "7%";
 
   let text =
-    "Grattis på födelsedagen älskling!" +
+    "Grattis i efterskott älskling!" +
     "<br>" +
     "<br>" +
-    "Du kan vara lite svår att köpa present till ibland men du tycker om klurigheter så jag gjorde en spel till dig som du måste ta dig igenom för att hitta din slutgiltiga present." +
+    'Förlåt, det tog längre tid än jag trodde men här är din present! Du tycker om klurigheter så jag gjorde en spel till dig som du måste ta dig igenom för att hitta din slutgiltiga present, det kommer utspela sig både i datorn och i "verkligheten", have fun!' +
     "<br>" +
     "<br>" +
     "Jag älskar dig ♥︎";
@@ -27,7 +27,7 @@ export default function firstScene(kaBoom) {
       currentText += text[index];
       dialogue.innerHTML = currentText;
       index++;
-      setTimeout(typeWriter, 30);
+      setTimeout(typeWriter, 20);
       if (index >= text.length) {
         startBtnContainer.style.display = "block";
         startBtnContainer.style.width = "100%";
@@ -41,6 +41,13 @@ export default function firstScene(kaBoom) {
   function startGame() {
     greetingContainer.style.display = "none";
     kaBoom.go("apartmentScene");
+    kaBoom.loadSound("soundtrack", "../public/8-bit-dream-land-142093.mp3");
+    const soundtrack = kaBoom.play("soundtrack", {
+      volume: 0.1,
+      loop: true,
+    });
+
+    kaBoom.volume(0.1);
   }
 
   startBtn.addEventListener("click", startGame);

@@ -4,7 +4,7 @@ import { playAnimIfNotPlaying, keysPressed } from "../utils";
 export default function createPlayer(kaBoom, pos) {
   return [
     kaBoom.sprite("spritesheet", { anim: "idle-down" }),
-    kaBoom.area({ shape: new kaBoom.Rect(kaBoom.vec2(3, 4), 10, 12) }),
+    kaBoom.area({ shape: new kaBoom.Rect(kaBoom.vec2(3, 4), 1, 12) }),
     kaBoom.body(),
     kaBoom.pos(pos),
     kaBoom.anchor("center"),

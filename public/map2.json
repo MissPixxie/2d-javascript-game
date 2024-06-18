@@ -38,7 +38,7 @@
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 1284, 1286, 1288, 1289, 1290, 1294, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 1285, 1287, 1291, 1292, 1293, 1295, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 1279, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 1279, 1296, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 1280, 0, 0, 265, 266, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1245, 1246, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 230, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 347, 348, 0, 0, 0, 1247, 1248, 0, 0, 0, 0, 1257, 0,
@@ -310,7 +310,7 @@
          "name":"boundaries",
          "objects":[
                 {
-                 "height":32,
+                 "height":33.5,
                  "id":4,
                  "name":"wall",
                  "rotation":0,
@@ -321,18 +321,18 @@
                  "y":32
                 }, 
                 {
-                 "height":49,
+                 "height":50.75,
                  "id":5,
                  "name":"wall",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":16,
-                 "x":160,
+                 "width":19.25,
+                 "x":158.5,
                  "y":95
                 }, 
                 {
-                 "height":32.3172804532578,
+                 "height":34.8172804532578,
                  "id":13,
                  "name":"wall",
                  "rotation":0,
@@ -340,7 +340,7 @@
                  "visible":true,
                  "width":128,
                  "x":32,
-                 "y":95.6827195467422
+                 "y":94.1827195467422
                 }, 
                 {
                  "height":96,
@@ -349,12 +349,12 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":16,
+                 "width":17.25,
                  "x":33.25,
                  "y":128.25
                 }, 
                 {
-                 "height":16,
+                 "height":17.75,
                  "id":17,
                  "name":"wall",
                  "rotation":0,
@@ -362,18 +362,18 @@
                  "visible":true,
                  "width":112,
                  "x":48,
-                 "y":208
+                 "y":206.25
                 }, 
                 {
-                 "height":32,
+                 "height":33.25,
                  "id":18,
                  "name":"wall",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":16,
-                 "x":144,
-                 "y":176
+                 "width":18,
+                 "x":142,
+                 "y":174.75
                 }, 
                 {
                  "height":16,
@@ -387,15 +387,15 @@
                  "y":207.666666666667
                 }, 
                 {
-                 "height":32,
+                 "height":48.25,
                  "id":20,
                  "name":"wall",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":16,
-                 "x":272,
-                 "y":208
+                 "width":19.5,
+                 "x":270.25,
+                 "y":191.75
                 }, 
                 {
                  "height":16,
@@ -415,23 +415,23 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":16,
-                 "x":416,
+                 "width":17.5,
+                 "x":414.5,
                  "y":96
                 }, 
                 {
-                 "height":32,
+                 "height":33.5,
                  "id":31,
                  "name":"wall",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":208,
-                 "x":208,
+                 "width":209.5,
+                 "x":206.5,
                  "y":96
                 }, 
                 {
-                 "height":16,
+                 "height":17,
                  "id":32,
                  "name":"wall",
                  "rotation":0,
@@ -448,8 +448,8 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":16,
-                 "x":208,
+                 "width":17.5,
+                 "x":206.5,
                  "y":64
                 }, 
                 {
@@ -641,15 +641,15 @@
                  "y":127.333333333333
                 }, 
                 {
-                 "height":16.6666666666667,
+                 "height":18.1666666666667,
                  "id":123,
                  "name":"wall",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":16.6666666666666,
-                 "x":272,
-                 "y":175.666666666667
+                 "width":19.6666666666666,
+                 "x":270.75,
+                 "y":174.166666666667
                 }, 
                 {
                  "height":31.75,
@@ -738,6 +738,17 @@
                  "width":31.5,
                  "x":96.25,
                  "y":80
+                }, 
+                {
+                 "height":8.5,
+                 "id":138,
+                 "name":"waterbowl",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":7.25,
+                 "x":65.75,
+                 "y":70
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -812,12 +823,12 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }],
  "nextlayerid":14,
- "nextobjectid":138,
+ "nextobjectid":139,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
@@ -1419,6 +1430,19 @@
          "name":"pixil-frame-0(54)",
          "spacing":0,
          "tilecount":2,
+         "tileheight":16,
+         "tilewidth":16
+        }, 
+        {
+         "columns":1,
+         "firstgid":1296,
+         "image":"..\/..\/..\/..\/..\/Downloads\/waterbowl.png",
+         "imageheight":16,
+         "imagewidth":16,
+         "margin":0,
+         "name":"waterbowl",
+         "spacing":0,
+         "tilecount":1,
          "tileheight":16,
          "tilewidth":16
         }],

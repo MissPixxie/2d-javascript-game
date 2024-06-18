@@ -17,7 +17,9 @@ import { gameState } from "../stateManager/stateManager.js";
 
 export default async function apartmentScene(kaBoom) {
   const previousScene = gameState.getPreviousScene();
-  console.log(previousScene);
+  gameState.setCurrentScene("apartmentScene");
+  const currentScene = gameState.getCurrentScene();
+
   colorizeBackground(kaBoom, 76, 170, 255);
 
   kaBoom.loadSprite("map", "../map2.png");
@@ -133,7 +135,7 @@ export default async function apartmentScene(kaBoom) {
   });
 
   entities.player.onCollide("puzzle", () => {
-    if (previousScene === "puzzleScene") return;
+    if (currentScene === "puzzleScene") return;
     else {
       kaBoom.go("puzzleScene");
     }

@@ -9,10 +9,9 @@ export default async function puzzleScene(kaBoom) {
   colorizeBackground(kaBoom, 76, 170, 255);
 
   const puzzleContainer = document.getElementById("puzzleContainer");
-  const boardContainer = document.getElementById("boardContainer");
 
   const backBtn = document.getElementById("backBtn");
-  //puzzleContainer.style.display = "block";
+  puzzleContainer.style.display = "block";
   puzzleContainer.style.backgroundColor = "#202121";
   puzzleContainer.style.display = "flex";
   puzzleContainer.style.flexWrap = "wrap";
@@ -47,21 +46,45 @@ export default async function puzzleScene(kaBoom) {
     "7",
   ];
 
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < columns; c++) {
-      let tile = document.createElement("img");
-      tile.id = r.toString() + "-" + c.toString();
-      tile.src = "/images/" + imgOrder.shift() + ".jpg";
+  function createTiles() {
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < columns; c++) {
+        let tile = document.createElement("img");
+        tile.id = r.toString() + "-" + c.toString();
+        tile.src = "/images/" + imgOrder.shift() + ".jpg";
 
-      tile.addEventListener("dragstart", dragStart);
-      tile.addEventListener("dragover", dragOver);
-      tile.addEventListener("dragenter", dragEnter);
-      tile.addEventListener("dragleave", dragLeave);
-      tile.addEventListener("drop", dragDrop);
-      tile.addEventListener("dragend", dragEnd);
+        tile.addEventListener("dragstart", dragStart);
+        tile.addEventListener("dragover", dragOver);
+        tile.addEventListener("dragenter", dragEnter);
+        tile.addEventListener("dragleave", dragLeave);
+        tile.addEventListener("drop", dragDrop);
+        tile.addEventListener("dragend", dragEnd);
 
-      document.getElementById("board").append(tile);
+        document.getElementById("board").append(tile);
+      }
     }
+  }
+
+  createTiles();
+
+  function removeTiles() {
+    let img = document.querySelectorAll("img");
+    console.log(img);
+    img.forEach((image) => {
+      console.log(image);
+      image.remove();
+    });
+    //let tile = document.querySelectorAll("img");
+    // for (tile in document.querySelectorAll("img")) {
+    //   tile.removeEventListener("dragstart", dragStart);
+    //   tile.removeEventListener("dragover", dragOver);
+    //   tile.removeEventListener("dragenter", dragEnter);
+    //   tile.removeEventListener("dragleave", dragLeave);
+    //   tile.removeEventListener("drop", dragDrop);
+    //   tile.removeEventListener("dragend", dragEnd);
+
+    //   tile.remove();
+    // }
   }
 
   function dragStart() {
@@ -98,7 +121,9 @@ export default async function puzzleScene(kaBoom) {
   }
 
   function backToMain() {
+    removeTiles();
     puzzleContainer.style.display = "none";
+    puzzleBoard.style.display = "none";
     gameState.setPreviousScene("puzzleScene");
     kaBoom.go("apartmentScene");
   }

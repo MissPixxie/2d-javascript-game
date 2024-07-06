@@ -41,13 +41,13 @@ export default function firstScene(kaBoom) {
   function startGame() {
     greetingContainer.style.display = "none";
     kaBoom.go("apartmentScene");
-    kaBoom.loadSound("soundtrack", "../public/8-bit-dream-land-142093.mp3");
+    kaBoom.loadSound("soundtrack", "../8-bit-dream-land-142093.mp3");
     const soundtrack = kaBoom.play("soundtrack", {
-      volume: 0.1,
+      volume: 0.2,
       loop: true,
     });
 
-    kaBoom.volume(0.1);
+    kaBoom.volume(0.5);
   }
 
   startBtn.addEventListener("click", startGame);

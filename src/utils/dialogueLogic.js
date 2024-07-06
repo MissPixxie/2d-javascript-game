@@ -76,15 +76,24 @@ export function displayChifferDialogue(text, onDisplayEnd) {
   }
 
   const closeBtn = document.getElementById("close-chiffer");
-  function onCloseBtnClick() {
-    onDisplayEnd();
-    dialogueUI.style.display = "none";
-    dialogue.innerHTML = "";
-    clearInterval(intervalRef);
-    closeBtn.removeEventListener("click", onCloseBtnClick);
+  function onCloseBtnClick(event) {
+    if (
+      event.type === "click" ||
+      (event.type === "keydown" && event.code === "Space")
+    ) {
+      console.log(event.code);
+
+      onDisplayEnd();
+      dialogueUI.style.display = "none";
+      dialogue.innerHTML = "";
+      clearInterval(intervalRef);
+      closeBtn.removeEventListener("click", onCloseBtnClick);
+      closeBtn.removeEventListener("keydown", onCloseBtnClick);
+    }
   }
 
   closeBtn.addEventListener("click", onCloseBtnClick);
+  closeBtn.addEventListener("keydown", onCloseBtnClick);
 }
 
 // AHRI //

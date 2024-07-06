@@ -74,17 +74,6 @@ export default async function puzzleScene(kaBoom) {
       console.log(image);
       image.remove();
     });
-    //let tile = document.querySelectorAll("img");
-    // for (tile in document.querySelectorAll("img")) {
-    //   tile.removeEventListener("dragstart", dragStart);
-    //   tile.removeEventListener("dragover", dragOver);
-    //   tile.removeEventListener("dragenter", dragEnter);
-    //   tile.removeEventListener("dragleave", dragLeave);
-    //   tile.removeEventListener("drop", dragDrop);
-    //   tile.removeEventListener("dragend", dragEnd);
-
-    //   tile.remove();
-    // }
   }
 
   function dragStart() {

@@ -4,6 +4,7 @@ export function playAnimIfNotPlaying(gameObj, animName) {
 
 export function keysPressed(kaBoom, keys) {
   for (const key of keys) {
+    console.log(key);
     if (kaBoom.isKeyDown(key)) return true;
   }
   return false;

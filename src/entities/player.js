@@ -80,7 +80,7 @@ export function setPlayerMovement(kaBoom, player) {
   //     player.play("walk-up");
   //     player.direction = "up";
   //     return;
-  //   }
+  //   }npm run
 
   //   if (
   //     mouseAngle < -lowerBound &&

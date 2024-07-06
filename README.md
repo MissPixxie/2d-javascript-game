@@ -1,5 +1,5 @@
 # Birthday game for my bf
-He's not a "stuff" guy but he likes Suduko and mind puzzles so I made this game for him that will lead him to his actual present which is a Rubiks cube.
+I made this game for him that will lead him to his actual present which is a Rubiks cube.
 
 The scene is our appartment.
 When you walk up to the table a popup shows with a text that is encrypted.
@@ -18,6 +18,11 @@ Walking up to Ahri wakes her up and she asks you what your favourite activity is
 - Swimming = Bathing in the ocean is fun, but I'm too afraid of swimming...
 
 We have a box at home where all the dogs toys are, including the wobble bowl, in the box he finds the real present hidden.
+
+I took the spritesheet from here and added som extra stuff of my own to it:
+https://github.com/JSLegendDev/2d-portfolio-kaboom/blob/master/public/spritesheet.png
+Sound from here:
+https://pixabay.com/music/video-games-8-bit-dream-land-142093/
 
 
 ## Screenshots
